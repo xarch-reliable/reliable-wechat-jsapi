@@ -92,4 +92,9 @@ public class WXInfoServerImpl implements WXInfoServer {
 		});
 	}
 
+	@Override
+	public Mono<WeixinUserInfo> getUserInfo(String openid) {
+		return Mono.just(wxUserInfoRepository.findByOpenid(openid));
+	}
+
 }

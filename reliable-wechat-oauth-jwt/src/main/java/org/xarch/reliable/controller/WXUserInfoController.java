@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.xarch.reliable.model.domain.wxuser.WeixinUserInfo;
 import org.xarch.reliable.service.WXInfoServer;
 import reactor.core.publisher.Mono;
 
@@ -20,10 +21,15 @@ public class WXUserInfoController {
 	public Mono<Map<String, Object>> getJwtInfo(@RequestParam(value = "code", required = true) String code) {
 		return wxInfoServer.getToken(code);
 	}
-	
+
 	@RequestMapping("/jwt/getinfo/all")
-	public Mono<List<Map<String, Object>>> getAllUserInfo(){
+	public Mono<List<Map<String, Object>>> getAllUserInfo() {
 		return wxInfoServer.getAllUserInfo();
+	}
+
+	@RequestMapping("/jwt/getinfo")
+	public Mono<WeixinUserInfo> getOpenid2UserInfo(@RequestParam(value = "openid", required = true) String openid) {
+		return wxInfoServer.getUserInfo(openid);
 	}
 
 }
