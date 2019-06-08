@@ -17,19 +17,20 @@ public class PayController {
 	private WxPayService wxPayService;
 
 	@RequestMapping("/pay/h5")
-	public Mono<WxPayMpOrderResult> PayMpOrder(@RequestParam(value = "openid", required = true) String openid) {
+	public Mono<WxPayMpOrderResult> PayMpOrder(@RequestParam(value = "openid", required = true) String openid,
+			@RequestParam(value = "payid", required = true) String payid) {
 		String body = "测试";
 		String detail = "保证红包";
 		String attach = "原来靠谱";
 		String totalFee = "1";
-		String outTradeNo = String.valueOf(System.currentTimeMillis());
+		String outTradeNo = payid;
 		String ip = "127.0.0.1";
 		return wxPayService.testCreateOrder_jsapi(body, outTradeNo, totalFee, ip, openid, detail, attach);
 	}
 
 	@RequestMapping("/pay/refund")
-	public Mono<WxPayRefundResult> PayRefund(@RequestParam(value = "trad", required = true) String trad) {
+	public Mono<WxPayRefundResult> PayRefund(@RequestParam(value = "payid", required = true) String payid) {
 		String outRefundNo = String.valueOf(System.currentTimeMillis());
-		return wxPayService.refund(outRefundNo, trad);
+		return wxPayService.refund(outRefundNo, payid);
 	}
 }
