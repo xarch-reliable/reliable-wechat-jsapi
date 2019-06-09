@@ -10,7 +10,7 @@ eureka:
       defaultZone: http://47.92.98.17:8000/eureka/
 spring:
   application:
-    name: reliable-wechat-oauth-jwt
+    name: reliable-wechat-pay-id-manager
   cloud:
     config:
       name: rabbitmq-bus,async-thread,logback-all-info,redis-4-payid #此处指定多个文件名即可
