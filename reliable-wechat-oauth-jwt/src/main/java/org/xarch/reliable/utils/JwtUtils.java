@@ -1,4 +1,4 @@
-package org.xarch.reliable.utils.jwt;
+package org.xarch.reliable.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

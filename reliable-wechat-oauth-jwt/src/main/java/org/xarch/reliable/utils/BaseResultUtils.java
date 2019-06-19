@@ -1,4 +1,4 @@
-package org.xarch.reliable.utils.transform;
+package org.xarch.reliable.utils;
 
 import java.util.Map;
 
@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class BaseResultTools {
+public class BaseResultUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger(BaseResultTools.class);
+	private static final Logger logger = LoggerFactory.getLogger(BaseResultUtils.class);
 	private static final ObjectMapper oMapper = new ObjectMapper();
 
 	@SuppressWarnings("unchecked")

@@ -1,10 +1,10 @@
 package org.xarch.reliable.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.xarch.reliable.model.domain.wxuser.WeixinUserInfo;
+import org.xarch.reliable.model.domain.wechat.WechatUserInfo;
 
-public interface WXUserInfoRepository extends JpaRepository<WeixinUserInfo, Long> {
+public interface WXUserInfoRepository extends JpaRepository<WechatUserInfo, Long> {
 
-	WeixinUserInfo findByOpenid(String openid);
+	WechatUserInfo findByOpenid(String openid);
 
 }

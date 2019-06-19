@@ -1,8 +1,8 @@
-package org.xarch.reliable.model.domain.wxuser;
+package org.xarch.reliable.model.domain.wechat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class BaseWXUserInfo {
+public abstract class BaseWechatUserInfo {
 
 	@JsonProperty("errcode")
 	private String errcode;

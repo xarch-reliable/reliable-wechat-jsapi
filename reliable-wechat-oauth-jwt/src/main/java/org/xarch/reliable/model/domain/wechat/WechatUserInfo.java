@@ -1,4 +1,4 @@
-package org.xarch.reliable.model.domain.wxuser;
+package org.xarch.reliable.model.domain.wechat;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class WeixinUserInfo extends BaseWXUserInfo implements Serializable {
+public class WechatUserInfo extends BaseWechatUserInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

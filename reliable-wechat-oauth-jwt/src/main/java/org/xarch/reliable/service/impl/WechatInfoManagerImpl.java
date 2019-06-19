@@ -10,52 +10,50 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xarch.reliable.config.weixin.WxConfig;
-import org.xarch.reliable.model.domain.wxuser.WeixinUserInfo;
+import org.xarch.reliable.config.wechat.WeChatConfig;
+import org.xarch.reliable.model.domain.wechat.WechatUserInfo;
 import org.xarch.reliable.model.repository.WXUserInfoRepository;
-import org.xarch.reliable.service.WXInfoServer;
-import org.xarch.reliable.service.thread.ThreadPool;
-import org.xarch.reliable.utils.jwt.JwtUtils;
-import org.xarch.reliable.utils.http.WXUserInfoHttpUtils;
-import org.xarch.reliable.utils.transform.BaseResultTools;
+import org.xarch.reliable.service.WechatInfoManager;
+import org.xarch.reliable.utils.BaseResultUtils;
+import org.xarch.reliable.utils.JwtUtils;
 
 import reactor.core.publisher.Mono;
 
 @Service
-public class WXInfoServerImpl implements WXInfoServer {
+public class WechatInfoManagerImpl implements WechatInfoManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(WXInfoServerImpl.class);
-
-	@Autowired
-	private WxConfig wxConfig;
+	private static final Logger logger = LoggerFactory.getLogger(WechatInfoManagerImpl.class);
 
 	@Autowired
-	private ThreadPool threadPool;
+	private WeChatConfig weChatConfig;
+
+	@Autowired
+	private ThreadPoolImpl threadPool;
 
 	@Autowired
 	private WXUserInfoRepository wxUserInfoRepository;
 
 	@Override
-	public Mono<Map<String, Object>> getToken(String code) {
-		String appid = wxConfig.getAppId();
-		String secret = wxConfig.getAppseCret();
-		String keyStr = wxConfig.getJwtKey();
-		return WXUserInfoHttpUtils.GetAccessToken(appid, secret, code).flatMap(r -> {
+	public Mono<Map<String, Object>> getJwtUserInfo(String code) {
+		String appid = weChatConfig.getAppId();
+		String secret = weChatConfig.getAppseCret();
+		String keyStr = weChatConfig.getJwtKey();
+		return WechatUserInfoHttpImpl.GetAccessToken(appid, secret, code).flatMap(r -> {
 			Map<String, Object> map = new HashMap<>();
 			if (StringUtils.isBlank(r.getAccess_token())) {
-				map.put("body", BaseResultTools.JsonObjectToMap(r));
+				map.put("body", BaseResultUtils.JsonObjectToMap(r));
 				logger.error("HttpServerImpl::GetAccessToken()-->获取accesstoken失败");
 				logger.error(r.getErrcode() + "=" + r.getErrmsg());
 				return Mono.just(map);
 			}
-			return WXUserInfoHttpUtils.GetUserInfo(r.getAccess_token(), r.getOpenid()).flatMap(info -> {
+			return WechatUserInfoHttpImpl.GetUserInfo(r.getAccess_token(), r.getOpenid()).flatMap(info -> {
 				if (StringUtils.isBlank(info.getOpenid())) {
-					map.put("body", BaseResultTools.JsonObjectToMap(info));
+					map.put("body", BaseResultUtils.JsonObjectToMap(info));
 					logger.error("HttpServerImpl::GetUserInfo()-->获取userinfo失败");
 					logger.error(info.getErrcode() + "=" + info.getErrmsg());
 					return Mono.just(map);
 				}
-				logger.error("HttpServerImpl::GetUserInfo() wancy success !!!!!!!!");
+				logger.error("HttpServerImpl::GetUserInfo() success !!!!!!!!");
 				Map<String, Object> claims = new HashMap<>();
 				claims.put("openid", info.getOpenid());
 				String subject = "Reliable_TOKEN";
@@ -82,7 +80,7 @@ public class WXInfoServerImpl implements WXInfoServer {
 	public Mono<List<Map<String, Object>>> getAllUserInfo() {
 		return Mono.just(wxUserInfoRepository.findAll()).flatMap(r -> {
 			List<Map<String, Object>> list = new ArrayList<>();
-			for (WeixinUserInfo info : r) {
+			for (WechatUserInfo info : r) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("openid", info.getOpenid());
 				map.put("nickname", info.getNickname());
@@ -93,7 +91,7 @@ public class WXInfoServerImpl implements WXInfoServer {
 	}
 
 	@Override
-	public Mono<WeixinUserInfo> getUserInfo(String openid) {
+	public Mono<WechatUserInfo> getUserInfo(String openid) {
 		return Mono.just(wxUserInfoRepository.findByOpenid(openid));
 	}
 

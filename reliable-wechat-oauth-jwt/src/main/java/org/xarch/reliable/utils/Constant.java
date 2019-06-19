@@ -1,4 +1,4 @@
-package org.xarch.reliable.utils.jwt;
+package org.xarch.reliable.utils;
 
 import java.util.UUID;
 
@@ -25,5 +25,5 @@ public class Constant {
 	/**
 	 * 有效时长
 	 */
-	public static final int JWT_TTL = 60 * 60 * 1000; // millisecond
+	public static final int JWT_TTL = 60 * 60 * 10000; // millisecond
 }

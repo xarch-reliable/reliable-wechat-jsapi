@@ -1,11 +1,11 @@
-package org.xarch.reliable.config.weixin;
+package org.xarch.reliable.config.wechat;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration // 配置类
 // @RefreshScope // bus动态刷新
-public class WxConfig {
+public class WeChatConfig {
 
 	@Value("${wechat.appid:error}")
 	private String appId;

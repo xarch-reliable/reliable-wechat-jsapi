@@ -1,8 +1,8 @@
-package org.xarch.reliable.model.domain.wxuser;
+package org.xarch.reliable.model.domain.wechat;
 
 import java.io.Serializable;
 
-public class AccessToken extends BaseWXUserInfo implements Serializable {
+public class AccessToken extends BaseWechatUserInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String access_token;
