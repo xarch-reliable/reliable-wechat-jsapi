@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.xarch.reliable.model.domain.wechat.BriefUserInfo;
 import org.xarch.reliable.model.domain.wechat.WechatUserInfo;
 import org.xarch.reliable.service.WechatInfoManager;
 
@@ -38,6 +39,12 @@ public class WechatOauthController {
 	public Mono<WechatUserInfo> getUserInfoByOpenid(@RequestParam(value = "openid", required = true) String openid) {
 		logger.info("WechatOauthController::getUserInfoByOpenid() : openid = " + openid);
 		return wechatInfoManager.getUserInfo(openid);
+	}
+	
+	@RequestMapping("/jwt/briefinfo")
+	public Mono<BriefUserInfo> getBriefUserInfoByOpenid(@RequestParam(value = "openid", required = true) String openid) {
+		logger.info("WechatOauthController::getUserInfoByOpenid() : openid = " + openid);
+		return wechatInfoManager.getBriefUserInfo(openid);
 	}
 
 }

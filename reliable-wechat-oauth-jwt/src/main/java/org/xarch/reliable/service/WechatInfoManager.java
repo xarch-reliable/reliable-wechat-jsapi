@@ -3,6 +3,7 @@ package org.xarch.reliable.service;
 import java.util.List;
 import java.util.Map;
 
+import org.xarch.reliable.model.domain.wechat.BriefUserInfo;
 import org.xarch.reliable.model.domain.wechat.WechatUserInfo;
 
 import reactor.core.publisher.Mono;
@@ -31,4 +32,6 @@ public interface WechatInfoManager {
 	 * @return 用户信息
 	 */
 	public Mono<WechatUserInfo> getUserInfo(String openid);
+	
+	public Mono<BriefUserInfo> getBriefUserInfo(String openid);
 }

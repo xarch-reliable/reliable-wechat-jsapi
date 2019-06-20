@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.config.wechat.WeChatConfig;
+import org.xarch.reliable.model.domain.wechat.BriefUserInfo;
 import org.xarch.reliable.model.domain.wechat.WechatUserInfo;
 import org.xarch.reliable.model.repository.WXUserInfoRepository;
 import org.xarch.reliable.service.WechatInfoManager;
@@ -42,18 +43,17 @@ public class WechatInfoManagerImpl implements WechatInfoManager {
 			Map<String, Object> map = new HashMap<>();
 			if (StringUtils.isBlank(r.getAccess_token())) {
 				map.put("body", BaseResultUtils.JsonObjectToMap(r));
-				logger.error("HttpServerImpl::GetAccessToken()-->获取accesstoken失败");
+				logger.error("HttpServerImpl::GetAccessToken() : 获取accesstoken失败");
 				logger.error(r.getErrcode() + "=" + r.getErrmsg());
 				return Mono.just(map);
 			}
 			return WechatUserInfoHttpImpl.GetUserInfo(r.getAccess_token(), r.getOpenid()).flatMap(info -> {
 				if (StringUtils.isBlank(info.getOpenid())) {
 					map.put("body", BaseResultUtils.JsonObjectToMap(info));
-					logger.error("HttpServerImpl::GetUserInfo()-->获取userinfo失败");
+					logger.error("HttpServerImpl::GetUserInfo() : 获取userinfo失败");
 					logger.error(info.getErrcode() + "=" + info.getErrmsg());
 					return Mono.just(map);
 				}
-				logger.error("HttpServerImpl::GetUserInfo() success !!!!!!!!");
 				Map<String, Object> claims = new HashMap<>();
 				claims.put("openid", info.getOpenid());
 				String subject = "Reliable_TOKEN";
@@ -67,7 +67,7 @@ public class WechatInfoManagerImpl implements WechatInfoManager {
 					threadPool.StorageTokenThread(info);
 					return Mono.just(map);
 				} catch (Exception e) {
-					logger.error("HttpServerImpl::JwtUtils.createJWT()-->创建JWTtoken失败");
+					logger.error("HttpServerImpl::JwtUtils.createJWT() : 创建JWTtoken失败");
 					e.printStackTrace();
 				}
 				map.put("body", "创建JWTtoken失败");
@@ -93,6 +93,17 @@ public class WechatInfoManagerImpl implements WechatInfoManager {
 	@Override
 	public Mono<WechatUserInfo> getUserInfo(String openid) {
 		return Mono.just(wxUserInfoRepository.findByOpenid(openid));
+	}
+
+	@Override
+	public Mono<BriefUserInfo> getBriefUserInfo(String openid) {
+		
+		return Mono.just(wxUserInfoRepository.findByOpenid(openid)).flatMap(r -> {
+			BriefUserInfo info = new BriefUserInfo();
+			info.setNickname(r.getNickname());
+			info.setHeadimgurl(r.getHeadimgurl());
+			return Mono.just(info);
+		});
 	}
 
 }
