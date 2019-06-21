@@ -100,6 +100,7 @@ public class WechatInfoManagerImpl implements WechatInfoManager {
 		
 		return Mono.just(wxUserInfoRepository.findByOpenid(openid)).flatMap(r -> {
 			BriefUserInfo info = new BriefUserInfo();
+			info.setOpenid(openid);
 			info.setNickname(r.getNickname());
 			info.setHeadimgurl(r.getHeadimgurl());
 			return Mono.just(info);
