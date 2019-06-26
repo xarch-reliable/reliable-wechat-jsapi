@@ -61,6 +61,7 @@ public class WechatInfoManagerImpl implements WechatInfoManager {
 					map.put("token", JwtUtils.createJWT(keyStr, claims, subject));
 					map.put("nickname", info.getNickname());
 					map.put("sex", info.getSex());
+					map.put("openid", info.getOpenid());
 					map.put("province", info.getProvince());
 					map.put("city", info.getCity());
 					map.put("headimgurl", info.getHeadimgurl());
