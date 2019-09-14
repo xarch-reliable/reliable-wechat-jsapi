@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 /**
  * 支付相关接口
  * 
- * @author Wei
+ * @author wancy
  *
  */
 public interface BaseWxPayService {
