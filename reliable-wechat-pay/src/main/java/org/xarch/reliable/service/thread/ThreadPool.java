@@ -80,7 +80,7 @@ public class ThreadPool {
 		if (existing != null) {
 			return;
 		}
-		logger.info("[存储PayUORequest]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(existing)));
+		logger.info("[存储PayUORequest]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(wxPayUnifiedOrderRequest)));
 		payUORequest.save(wxPayUnifiedOrderRequest);
 	}
 
@@ -90,7 +90,7 @@ public class ThreadPool {
 		if (existing != null) {
 			return;
 		}
-		logger.info("[存储PayUOResult]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(existing)));
+		logger.info("[存储PayUOResult]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(wxPayUnifiedOrderResult)));
 		payUOResult.save(wxPayUnifiedOrderResult);
 	}
 
@@ -100,7 +100,7 @@ public class ThreadPool {
 		if (existing != null) {
 			return;
 		}
-		logger.info("[存储PayRefundRequest]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(existing)));
+		logger.info("[存储PayRefundRequest]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(wxPayRefundRequest)));
 		payRefundRequest.save(wxPayRefundRequest);
 	}
 
@@ -110,7 +110,7 @@ public class ThreadPool {
 		if (existing != null) {
 			return;
 		}
-		logger.info("[存储PayRefundResult]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(existing)));
+		logger.info("[存储PayRefundResult]"+BaseResultTools.JsonObjectToStr(BaseResultTools.XmlObjectToMap(wxPayRefundResult)));
 		payRefundResult.save(wxPayRefundResult);
 	}
 
