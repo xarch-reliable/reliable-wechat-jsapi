@@ -49,7 +49,7 @@ public class BaseWxPayServiceImpl implements BaseWxPayService {
 				logger.error("无法获取prepay id，错误代码： " + r.getErrCode() + "，信息：" + r.getErrCodeDes());
 				return Mono.just((T) new Object());
 			}
-			threadPool.StoragePayUOResultThread(r);
+			threadPool.storagePayUOResultThread(r);
 			String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
 			String nonceStr = String.valueOf(System.currentTimeMillis());
 			switch (request.getTradeType()) {
@@ -86,7 +86,7 @@ public class BaseWxPayServiceImpl implements BaseWxPayService {
 	public Mono<WxPayUnifiedOrderResult> unifiedOrder(WxPayUnifiedOrderRequest request) throws Exception {
 		request.setSign(SignUtils.createSign(request, request.getSignType(), wxPayConfig.getMchKey(), new String[0]));
 		String requestContent = BaseResultTools.XmlObjectToStr(request);
-		threadPool.StoragePayUORequestThread(request);
+		threadPool.storagePayUORequestThread(request);
 		return WxPayHttpUtils.post(requestContent).flatMap(res -> {
 			logger.info("[UnifiedOrder::request]+++[" + requestContent + "]");
 			logger.info("[UnifiedOrder::response]===[" + res + "]");
@@ -98,12 +98,12 @@ public class BaseWxPayServiceImpl implements BaseWxPayService {
 	public Mono<WxPayRefundResult> refund(WxPayRefundRequest request) throws Exception {
 		request.setSign(SignUtils.createSign(request, request.getSignType(), wxPayConfig.getMchKey(), new String[0]));
 		String requestContent = BaseResultTools.XmlObjectToStr(request);
-		threadPool.StoragePayRefundRequestThread(request);
+		threadPool.storagePayRefundRequestThread(request);
 		return WxPayHttpUtils.post(requestContent, requestConfig, httpClient).flatMap(res -> {
 			logger.info("[Refund::request]+++[" + requestContent + "]");
 			logger.info("[Refund::response]===[" + res + "]");
 			return Mono.just(BaseResultTools.fromXML(res, WxPayRefundResult.class)).flatMap(r -> {
-				threadPool.StoragePayRefundResultThread(r);
+				threadPool.storagePayRefundResultThread(r);
 				return Mono.just(r);
 			});
 		});
