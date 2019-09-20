@@ -26,14 +26,14 @@ public class WxPayNotifyServiceImpl implements WxPayNotifyService {
 	@Override
 	public String ProcessOrderNotify(String notifyStr) {
 		WxPayOrderNotifyResult result = BaseResultTools.fromXML(notifyStr, WxPayOrderNotifyResult.class);
-		threadPool.StoragePayOrderNotifyThread(result);
+		threadPool.storagePayOrderNotifyThread(result);
 		return BaseResultTools.XmlObjectToStr(baseWxPayNotifyService.success());
 	}
 
 	@Override
 	public String ProcessRefundNotify(String notifyStr) {
 		WxPayRefundNotifyReqInfo result = RefundNotifyTools.fromXML(notifyStr, wxPayConfig.getMchKey());
-		threadPool.StoragePayRefundNotifyThread(result);
+		threadPool.storagePayRefundNotifyThread(result);
 		return BaseResultTools.XmlObjectToStr(baseWxPayNotifyService.success());
 	}
 

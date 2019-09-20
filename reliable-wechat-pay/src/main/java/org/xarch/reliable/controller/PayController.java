@@ -20,10 +20,10 @@ public class PayController {
 
 	@RequestMapping("/pay/h5")
 	public Mono<Map<String, Object>> PayMpOrder(@RequestParam(value = "openid", required = true) String openid,
-			@RequestParam(value = "payid", required = true) String payid) {
+			@RequestParam(value = "payid", required = true) String payid, @RequestParam(value = "actid", required = true) String actid) {
 		String body = "测试";
 		String detail = "保证红包";
-		String attach = "原来靠谱";
+		String attach = actid;
 		String totalFee = "1";
 		String outTradeNo = payid;
 		String ip = "127.0.0.1";

@@ -13,7 +13,7 @@ spring:
     name: reliable-wechat-pay-notify
   cloud:
     config:
-      name: rabbitmq-bus,weixin-info,async-thread,logback-web-debug,mysql-8,redis-6 #此处指定多个文件名即可
+      name: rabbitmq-bus,weixin-info,async-thread,logback-web-debug,mysql-8,feign,ribbon-eager-load-business #此处指定多个文件名即可
       profile: dev
       label: master
       discovery:
