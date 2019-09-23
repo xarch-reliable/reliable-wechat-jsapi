@@ -17,7 +17,7 @@ public class PayIdManagerServerImpl implements PayIdManagerServer {
 	@Override
 	public Map<String, String> addActid2Openid(String actid, String openid) {
 		Map<String, String> map = payIdCacheServer.getActidMap(actid, new HashMap<String, String>());
-		String outTradeNo = String.valueOf(System.currentTimeMillis());
+		String outTradeNo = String.valueOf(System.currentTimeMillis()+(int)((Math.random()*9+1)*100000));
 		map.put(openid, outTradeNo);
 		return payIdCacheServer.setActidMap(actid, map);
 	}
