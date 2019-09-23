@@ -1,7 +1,10 @@
 package org.xarch.reliable.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,14 @@ public class PayIdManagerServerImpl implements PayIdManagerServer {
 	@Override
 	public Map<String, String> addActid2Openid(String actid, String openid) {
 		Map<String, String> map = payIdCacheServer.getActidMap(actid, new HashMap<String, String>());
-		String outTradeNo = String.valueOf(System.currentTimeMillis()+(int)((Math.random()*9+1)*100000));
+		
+		SimpleDateFormat simpleDateFormat;
+		simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String str = simpleDateFormat.format(date);
+		Random random = new Random();
+		int rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000;// 获取5位随机数
+		String outTradeNo = str+rannum;
 		logger.info("[outTradeNo]"+outTradeNo);
 		map.put(openid, outTradeNo);
 		return payIdCacheServer.setActidMap(actid, map);
