@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface PayIdManagerServer {
 
-	public Map<String, String> addActid2Openid(String actid,String openid);
+	public Map<String, Object> setActid2Openid(String actid,String openid, String out_trade_no);
 	
-	public Map<String, String> getActid2Openid2Map(String actid);
+	public Map<String, Object> getActid2Openid2Map(String actid);
 }

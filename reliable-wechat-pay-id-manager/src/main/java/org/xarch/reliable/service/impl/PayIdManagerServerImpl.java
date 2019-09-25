@@ -2,37 +2,39 @@ package org.xarch.reliable.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xarch.reliable.service.PayIdCacheServer;
 import org.xarch.reliable.service.PayIdManagerServer;
+
+import xarch.reliable.util.RedisUtil;
 
 @Service
 public class PayIdManagerServerImpl implements PayIdManagerServer {
-
-	private static final Logger logger = LoggerFactory.getLogger(PayIdManagerServerImpl.class);
 	
-	@Autowired
-	private PayIdCacheServer payIdCacheServer;
+	@Autowired 
+	private RedisUtil redisUtil;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public Map<String, String> addActid2Openid(String actid, String openid) {
-		Map<String, String> map = payIdCacheServer.getActidMap(actid, new HashMap<String, String>());
-		Random random = new Random();
-		int rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000;// 获取5位随机数
-		String outTradeNo = String.valueOf(System.currentTimeMillis()) + rannum;
-		logger.info("[outTradeNo]"+outTradeNo);
-		map.put(openid, outTradeNo);
-		return payIdCacheServer.setActidMap(actid, map);
+	public Map<String, Object> setActid2Openid(String actid, String openid, String out_trade_no) {
+		Map<String, Object> resmap = new HashMap<String, Object>();
+		Map tmap = redisUtil.hmget(actid);
+		Map<String, Object> map = (Map<String, Object>)tmap;
+		map.put(openid, out_trade_no);
+		if(redisUtil.hmset(actid, map)) {
+			resmap.put("success_msg", "true");
+		}else {
+			resmap.put("error_msg", "false");
+		}
+		return resmap;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Map<String, String> getActid2Openid2Map(String actid) {
-		return payIdCacheServer.getActidMap(actid, new HashMap<String, String>());
+	public Map<String, Object> getActid2Openid2Map(String actid) {
+		Map map = redisUtil.hmget(actid);
+		return (Map<String, Object>)map;
 	}
 
 }
