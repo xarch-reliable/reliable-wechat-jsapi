@@ -6,8 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.PayIdManagerServer;
-
-import xarch.reliable.util.RedisUtil;
+import org.xarch.reliable.util.RedisUtil;
 
 @Service
 public class PayIdManagerServerImpl implements PayIdManagerServer {

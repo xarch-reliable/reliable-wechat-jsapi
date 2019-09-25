@@ -1,4 +1,4 @@
-package xarch.reliable.util;
+package org.xarch.reliable.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
