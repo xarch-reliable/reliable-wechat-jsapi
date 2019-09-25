@@ -2,7 +2,7 @@ package xarch.reliable.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  *  @author wancy
  */
-@Service
+@Component
 public class RedisUtil {
 	
     @Autowired
