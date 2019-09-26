@@ -44,7 +44,7 @@ public class WechatPayToUserResponse extends BaseWxPayResult implements Serializ
 	 */
 	@JacksonXmlProperty(localName = "mch_appid")
 	@JacksonXmlCData(value = true)
-	private String mch_appid;
+	private String mchAppid;
 
 	/**
 	 * 商户号.
@@ -89,12 +89,12 @@ public class WechatPayToUserResponse extends BaseWxPayResult implements Serializ
 	@JacksonXmlCData(value = true)
 	private String payment_time;
 
-	public String getMch_appid() {
-		return mch_appid;
+	public String getMchAppid() {
+		return mchAppid;
 	}
 
-	public void setMch_appid(String mch_appid) {
-		this.mch_appid = mch_appid;
+	public void setMchAppid(String mchAppid) {
+		this.mchAppid = mchAppid;
 	}
 
 	public String getMchid() {

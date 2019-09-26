@@ -90,8 +90,8 @@ public class WxPayServiceImpl implements WxPayService {
 	public Mono<WechatPayToUserResponse> prePayToUser(String openid, String partnerTradeNo, String checkName, String reUserName, String amount, String desc, String spbillCreateIp) {
 		try {
 			WechatPayToUserRequest request = new WechatPayToUserRequest();
-			request.setMch_appid(wxPayConfig.getAppId());
-			request.setMchId(wxPayConfig.getMchId());
+			request.setMchAppid(wxPayConfig.getAppId());
+			request.setMchid(wxPayConfig.getMchId());
 			request.setSignType(wxPayConfig.getSignType());
 			request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 			request.setAmount(amount);

@@ -51,7 +51,7 @@ public class WechatPayToUserRequest implements Serializable {
 	 */
 	@JacksonXmlProperty(localName = "mch_appid")
 	@JacksonXmlCData(value = true)
-	protected String mch_appid;
+	protected String mchAppid;
 	/**
 	 * <pre>
 	 * 字段名：商户号.
@@ -64,7 +64,7 @@ public class WechatPayToUserRequest implements Serializable {
 	 */
 	@JacksonXmlProperty(localName = "mchid")
 	@JacksonXmlCData(value = true)
-	protected String mchId;
+	protected String mchid;
 	/**
 	 * <pre>
 	 * 字段名：随机字符串.
@@ -155,20 +155,20 @@ public class WechatPayToUserRequest implements Serializable {
 	@JacksonXmlCData(value = true)
 	private String spbillCreateIp;
 
-	public String getMch_appid() {
-		return mch_appid;
+	public String getMchAppid() {
+		return mchAppid;
 	}
 
-	public void setMch_appid(String mch_appid) {
-		this.mch_appid = mch_appid;
+	public void setMchAppid(String mchAppid) {
+		this.mchAppid = mchAppid;
 	}
 
-	public String getMchId() {
-		return mchId;
+	public String getMchid() {
+		return mchid;
 	}
 
-	public void setMchId(String mchId) {
-		this.mchId = mchId;
+	public void setMchid(String mchid) {
+		this.mchid = mchid;
 	}
 
 	public String getNonceStr() {
