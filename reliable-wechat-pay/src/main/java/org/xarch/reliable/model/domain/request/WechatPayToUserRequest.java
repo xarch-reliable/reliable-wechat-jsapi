@@ -187,6 +187,14 @@ public class WechatPayToUserRequest implements Serializable {
 		this.sign = sign;
 	}
 
+	public String getSignType() {
+		return signType;
+	}
+
+	public void setSignType(String signType) {
+		this.signType = signType;
+	}
+
 	public String getPartnerTradeNo() {
 		return partnerTradeNo;
 	}
@@ -241,14 +249,6 @@ public class WechatPayToUserRequest implements Serializable {
 
 	public void setSpbillCreateIp(String spbillCreateIp) {
 		this.spbillCreateIp = spbillCreateIp;
-	}
-
-	public String getSignType() {
-		return signType;
-	}
-
-	public void setSignType(String signType) {
-		this.signType = signType;
 	}
 
 }
