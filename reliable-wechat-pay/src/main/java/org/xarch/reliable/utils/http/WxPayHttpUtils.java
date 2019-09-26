@@ -27,6 +27,7 @@ public class WxPayHttpUtils {
 	private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
 	private static final String PAY_UORDER_PATH = "/pay/unifiedorder";
 	private static final String PAY_REFUND_PATH = "/secapi/pay/refund";
+	private static final String PAY_TOUSER_PATH = "/mmpaymkttransfers/promotion/transfers";
 	private static final String PKCS = "PKCS12";
 	private static final int socketTimeout = 10000;// 连接超时时间，默认10秒
 	private static final int connectTimeout = 30000;// 传输超时时间，默认30秒
@@ -74,6 +75,36 @@ public class WxPayHttpUtils {
 		return Mono.just(result);
 	}
 
+	/**
+	 * 退款请求
+	 * 
+	 * @param key
+	 * @param requestStr
+	 * @param useKey
+	 * @return
+	 * @throws Exception
+	 */
+	public static Mono<String> toUserpost(String requestStr, RequestConfig requestConfig, CloseableHttpClient httpClient)
+			throws Exception {
+
+		HttpPost httpPost = new HttpPost(PAY_BASE_URL + PAY_TOUSER_PATH);
+		httpPost.addHeader("Content-Type", "application/xml");
+		StringEntity postEntity = new StringEntity(requestStr, "UTF-8");
+		httpPost.setEntity(postEntity);
+		// 设置请求器的配置
+		httpPost.setConfig(requestConfig);
+		String result = null;
+		try {
+			HttpResponse response = httpClient.execute(httpPost);
+			HttpEntity entity = response.getEntity();
+			result = EntityUtils.toString(entity, "UTF-8");
+		} finally {
+			httpPost.abort();
+		}
+		return Mono.just(result);
+	}
+	
+	
 	/**
 	 * 
 	 * @param key      证书密码，默认为商户ID[MCHID]

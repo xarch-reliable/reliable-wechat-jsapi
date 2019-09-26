@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.xarch.reliable.config.weixin.WxPayConfig;
 import org.xarch.reliable.model.domain.constant.WxPayConstants.SignType;
 import org.xarch.reliable.model.domain.constant.WxPayConstants.TradeType;
+import org.xarch.reliable.model.domain.request.WechatPayToUserRequest;
 import org.xarch.reliable.model.domain.request.WxPayRefundRequest;
 import org.xarch.reliable.model.domain.request.WxPayUnifiedOrderRequest;
+import org.xarch.reliable.model.domain.result.WechatPayToUserResponse;
 import org.xarch.reliable.model.domain.result.WxPayRefundResult;
 import org.xarch.reliable.model.domain.result.WxPayUnifiedOrderResult;
 import org.xarch.reliable.model.domain.result.h5.WxPayMpOrderResult;
@@ -121,6 +123,18 @@ public class BaseWxPayServiceImpl implements BaseWxPayService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Mono<WechatPayToUserResponse> payToUser(WechatPayToUserRequest request) throws Exception {
+		String requestContent = BaseResultTools.XmlObjectToStr(request);
+		return WxPayHttpUtils.toUserpost(requestContent, requestConfig, httpClient).flatMap(res -> {
+			logger.info("[企业付款到零钱::request]+++[" + requestContent + "]");
+			logger.info("[企业付款到零钱::response]===[" + res + "]");
+			return Mono.just(BaseResultTools.fromXML(res, WechatPayToUserResponse.class)).flatMap(r -> {
+				return Mono.just(r);
+			});
+		});
 	}
 
 }

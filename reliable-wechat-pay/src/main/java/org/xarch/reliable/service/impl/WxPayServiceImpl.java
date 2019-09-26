@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.config.weixin.WxPayConfig;
+import org.xarch.reliable.model.domain.request.WechatPayToUserRequest;
 import org.xarch.reliable.model.domain.request.WxPayRefundRequest;
 import org.xarch.reliable.model.domain.request.WxPayUnifiedOrderRequest;
+import org.xarch.reliable.model.domain.result.WechatPayToUserResponse;
 import org.xarch.reliable.model.domain.result.WxPayRefundResult;
 import org.xarch.reliable.model.domain.result.h5.WxPayMpOrderResult;
 import org.xarch.reliable.service.BaseWxPayService;
 import org.xarch.reliable.service.WxPayService;
+import org.xarch.reliable.utils.sign.SignUtils;
 
 import reactor.core.publisher.Mono;
 
@@ -81,6 +84,30 @@ public class WxPayServiceImpl implements WxPayService {
 			e.printStackTrace();
 		}
 		return Mono.just(new WxPayRefundResult());
+	}
+
+	@Override
+	public Mono<WechatPayToUserResponse> prePayToUser(String openid, String partnerTradeNo, String checkName, String reUserName, String amount, String desc, String spbillCreateIp) {
+		try {
+			WechatPayToUserRequest request = new WechatPayToUserRequest();
+			request.setMch_appid(wxPayConfig.getAppId());
+			request.setMchId(wxPayConfig.getMchId());
+			request.setSignType(wxPayConfig.getSignType());
+			request.setNonceStr(String.valueOf(System.currentTimeMillis()));
+			request.setAmount(amount);
+			request.setCheckName(checkName);
+			request.setDesc(desc);
+			request.setOpenid(openid);
+			request.setPartnerTradeNo(partnerTradeNo);
+			request.setReUserName(reUserName);
+			request.setSign(SignUtils.createSign(request, request.getSignType(), wxPayConfig.getMchKey(), new String[0]));
+			request.setSpbillCreateIp(spbillCreateIp);
+			return baseWxPayService.payToUser(request);
+		} catch (Exception e) {
+			logger.error("BaseWxPayService : payToUser-->企业支付到零钱支付请求发生错误");
+			e.printStackTrace();
+		}
+		return Mono.just(new WechatPayToUserResponse());
 	}
 
 }

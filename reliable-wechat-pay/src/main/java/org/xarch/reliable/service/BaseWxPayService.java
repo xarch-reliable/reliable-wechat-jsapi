@@ -1,7 +1,9 @@
 package org.xarch.reliable.service;
 
+import org.xarch.reliable.model.domain.request.WechatPayToUserRequest;
 import org.xarch.reliable.model.domain.request.WxPayRefundRequest;
 import org.xarch.reliable.model.domain.request.WxPayUnifiedOrderRequest;
+import org.xarch.reliable.model.domain.result.WechatPayToUserResponse;
 import org.xarch.reliable.model.domain.result.WxPayRefundResult;
 import org.xarch.reliable.model.domain.result.WxPayUnifiedOrderResult;
 
@@ -48,5 +50,19 @@ public interface BaseWxPayService {
 	 * @throws WxPayException the wx pay exception
 	 */
 	public Mono<WxPayRefundResult> refund(WxPayRefundRequest request) throws Exception;
+	
+	/**
+	 * <pre>
+	 * 微信支付-企业付款到零钱.
+	 * 详见 https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2
+	 * 接口链接：https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers
+	 * </pre>
+	 *
+	 * @param request 请求对象
+	 * @return 付款结果 
+	 * @throws Exception
+	 * @throws WxPayException the wx pay exception
+	 */
+	public Mono<WechatPayToUserResponse> payToUser(WechatPayToUserRequest request) throws Exception;
 
 }

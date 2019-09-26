@@ -66,6 +66,7 @@ public abstract class BaseWxPayRequest {
 	@JacksonXmlProperty(localName = "sign")
 	@JacksonXmlCData(value = true)
 	protected String sign;
+	
 	/**
 	 * <pre>
 	 * 签名类型.

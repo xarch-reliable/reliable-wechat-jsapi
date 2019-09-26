@@ -1,6 +1,7 @@
 package org.xarch.reliable.service;
 
 import org.xarch.reliable.model.domain.request.WxPayUnifiedOrderRequest;
+import org.xarch.reliable.model.domain.result.WechatPayToUserResponse;
 import org.xarch.reliable.model.domain.result.WxPayRefundResult;
 import org.xarch.reliable.model.domain.result.h5.WxPayMpOrderResult;
 
@@ -16,4 +17,7 @@ public interface WxPayService {
 	public Mono<WxPayRefundResult> refund(String outRefundNo,String outTradeNo);
 	
 	public Mono<WxPayRefundResult> refund_jsapi(String outRefundNo,String outTradeNo) throws Exception;
+	
+	public Mono<WechatPayToUserResponse> prePayToUser(String openid, String partnerTradeNo, String checkName, String reUserName, String amount, String desc, String spbillCreateIp);
+	
 }
