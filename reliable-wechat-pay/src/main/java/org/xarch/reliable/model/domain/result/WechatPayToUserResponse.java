@@ -31,13 +31,49 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonIgnoreProperties(ignoreUnknown=true)
 //反序列化时要忽略所有pojo中不存在的属性
 @Entity
-public class WechatPayToUserResponse extends BaseWxPayResult implements Serializable {
+public class WechatPayToUserResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	/**
+	 * SUCCESS/FAIL<br/>
+	 * 此字段是通信标识，非交易标识，交易是否成功需要查看result_code来判断
+	 */
+	@JacksonXmlProperty(localName = "return_code")
+	@JacksonXmlCData(value = true)
+	protected String returnCode;
+
+	/**
+	 * 当return_code为FAIL时返回信息为错误原因
+	 */
+	@JacksonXmlProperty(localName = "return_msg")
+	@JacksonXmlCData(value = true)
+	protected String returnMsg;
+
+	/**
+	 * SUCCESS/FAIL
+	 */
+	@JacksonXmlProperty(localName = "result_code")
+	@JacksonXmlCData(value = true)
+	protected String resultCode;
+
+	/**
+	 * 当result_code为FAIL时返回错误代码
+	 */
+	@JacksonXmlProperty(localName = "err_code")
+	@JacksonXmlCData(value = true)
+	protected String errCode;
+
+	/**
+	 * 当result_code为FAIL时返回错误描述
+	 */
+	@JacksonXmlProperty(localName = "err_code_des")
+	@JacksonXmlCData(value = true)
+	protected String errCodeDes;
 
 	/**
 	 * 商户appid.
@@ -58,21 +94,21 @@ public class WechatPayToUserResponse extends BaseWxPayResult implements Serializ
 	 */
 	@JacksonXmlProperty(localName = "device_info")
 	@JacksonXmlCData(value = true)
-	private String device_info;
+	private String deviceInfo;
 
 	/**
 	 * 随机字符串.
 	 */
 	@JacksonXmlProperty(localName = "nonce_str")
 	@JacksonXmlCData(value = true)
-	private String nonce_str;
+	private String nonceStr;
 	
 	/**
 	 * 商户订单号.
 	 */
 	@JacksonXmlProperty(localName = "partner_trade_no")
 	@JacksonXmlCData(value = true)
-	private String partner_trade_no;
+	private String partnerTradeNo;
 
 	
 	/**
@@ -80,14 +116,54 @@ public class WechatPayToUserResponse extends BaseWxPayResult implements Serializ
 	 */
 	@JacksonXmlProperty(localName = "payment_no")
 	@JacksonXmlCData(value = true)
-	private String payment_no;
+	private String paymentNo;
 	
 	/**
 	 * 付款成功时间.
 	 */
 	@JacksonXmlProperty(localName = "payment_time")
 	@JacksonXmlCData(value = true)
-	private String payment_time;
+	private String paymentTime;
+
+	public String getReturnCode() {
+		return returnCode;
+	}
+
+	public void setReturnCode(String returnCode) {
+		this.returnCode = returnCode;
+	}
+
+	public String getReturnMsg() {
+		return returnMsg;
+	}
+
+	public void setReturnMsg(String returnMsg) {
+		this.returnMsg = returnMsg;
+	}
+
+	public String getResultCode() {
+		return resultCode;
+	}
+
+	public void setResultCode(String resultCode) {
+		this.resultCode = resultCode;
+	}
+
+	public String getErrCode() {
+		return errCode;
+	}
+
+	public void setErrCode(String errCode) {
+		this.errCode = errCode;
+	}
+
+	public String getErrCodeDes() {
+		return errCodeDes;
+	}
+
+	public void setErrCodeDes(String errCodeDes) {
+		this.errCodeDes = errCodeDes;
+	}
 
 	public String getMchAppid() {
 		return mchAppid;
@@ -105,44 +181,43 @@ public class WechatPayToUserResponse extends BaseWxPayResult implements Serializ
 		this.mchid = mchid;
 	}
 
-	public String getDevice_info() {
-		return device_info;
+	public String getDeviceInfo() {
+		return deviceInfo;
 	}
 
-	public void setDevice_info(String device_info) {
-		this.device_info = device_info;
+	public void setDeviceInfo(String deviceInfo) {
+		this.deviceInfo = deviceInfo;
 	}
 
-	public String getNonce_str() {
-		return nonce_str;
+	public String getNonceStr() {
+		return nonceStr;
 	}
 
-	public void setNonce_str(String nonce_str) {
-		this.nonce_str = nonce_str;
+	public void setNonceStr(String nonceStr) {
+		this.nonceStr = nonceStr;
 	}
 
-	public String getPartner_trade_no() {
-		return partner_trade_no;
+	public String getPartnerTradeNo() {
+		return partnerTradeNo;
 	}
 
-	public void setPartner_trade_no(String partner_trade_no) {
-		this.partner_trade_no = partner_trade_no;
+	public void setPartnerTradeNo(String partnerTradeNo) {
+		this.partnerTradeNo = partnerTradeNo;
 	}
 
-	public String getPayment_no() {
-		return payment_no;
+	public String getPaymentNo() {
+		return paymentNo;
 	}
 
-	public void setPayment_no(String payment_no) {
-		this.payment_no = payment_no;
+	public void setPaymentNo(String paymentNo) {
+		this.paymentNo = paymentNo;
 	}
 
-	public String getPayment_time() {
-		return payment_time;
+	public String getPaymentTime() {
+		return paymentTime;
 	}
 
-	public void setPayment_time(String payment_time) {
-		this.payment_time = payment_time;
+	public void setPaymentTime(String paymentTime) {
+		this.paymentTime = paymentTime;
 	}
-
 }
