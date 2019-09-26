@@ -91,20 +91,6 @@ public class WechatPayToUserRequest implements Serializable {
 	@JacksonXmlProperty(localName = "sign")
 	@JacksonXmlCData(value = true)
 	protected String sign;
-	
-	/**
-	 * <pre>
-	 * 签名类型.
-	 * sign_type
-	 * 否
-	 * String(32)
-	 * HMAC-SHA256
-	 * 签名类型，目前支持HMAC-SHA256和MD5
-	 * </pre>
-	 */
-	@JacksonXmlProperty(localName = "sign_type")
-	@JacksonXmlCData(value = true)
-	protected String signType;
 
 	/**
 	 * 商户订单号.
@@ -185,14 +171,6 @@ public class WechatPayToUserRequest implements Serializable {
 
 	public void setSign(String sign) {
 		this.sign = sign;
-	}
-
-	public String getSignType() {
-		return signType;
-	}
-
-	public void setSignType(String signType) {
-		this.signType = signType;
 	}
 
 	public String getPartnerTradeNo() {

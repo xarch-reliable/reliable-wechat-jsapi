@@ -92,7 +92,6 @@ public class WxPayServiceImpl implements WxPayService {
 			WechatPayToUserRequest request = new WechatPayToUserRequest();
 			request.setMchAppid(wxPayConfig.getAppId());
 			request.setMchid(wxPayConfig.getMchId());
-			request.setSignType(wxPayConfig.getSignType());
 			request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 			request.setAmount(amount);
 			request.setCheckName(checkName);
@@ -100,7 +99,7 @@ public class WxPayServiceImpl implements WxPayService {
 			request.setOpenid(openid);
 			request.setPartnerTradeNo(partnerTradeNo);
 			request.setReUserName(reUserName);
-			request.setSign(SignUtils.createSign(request, request.getSignType(), wxPayConfig.getMchKey(), new String[0]));
+			request.setSign(SignUtils.createSign(request, wxPayConfig.getSignType(), wxPayConfig.getMchKey(), new String[0]));
 			request.setSpbillCreateIp(spbillCreateIp);
 			return baseWxPayService.payToUser(request);
 		} catch (Exception e) {
