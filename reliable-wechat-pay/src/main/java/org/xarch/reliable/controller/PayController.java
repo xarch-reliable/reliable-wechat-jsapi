@@ -43,12 +43,13 @@ public class PayController {
 	@RequestMapping("/pay/touser")
 	public Mono<Map<String, Object>> PayToUser(@RequestParam(value = "openid", required = true) String openid, 
 			@RequestParam(value = "partner_trade_no", required = true) String partnerTradeNo) {
+		String partnerTradeNo1 = String.valueOf(System.currentTimeMillis());
 		String checkName = "NO_CHECK";
 		String reUserName = "靠谱达人";
 		String amount = "1";
 		String desc = "靠谱金";
 		String spbillCreateIp = "127.0.0.1";
-		return wxPayService.prePayToUser(openid, partnerTradeNo, checkName, reUserName, amount, desc, spbillCreateIp)
+		return wxPayService.prePayToUser(openid, partnerTradeNo1, checkName, reUserName, amount, desc, spbillCreateIp)
 				.flatMap(res -> {
 					return Mono.just(BaseResultTools.ObjectToMap(res));
 				});
