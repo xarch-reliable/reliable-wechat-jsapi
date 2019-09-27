@@ -46,7 +46,7 @@ public class PayController {
 		String partnerTradeNo1 = String.valueOf(System.currentTimeMillis());
 		String checkName = "NO_CHECK";
 		String reUserName = "靠谱达人";
-		String amount = "1";
+		String amount = "30";
 		String desc = "靠谱金";
 		String spbillCreateIp = "127.0.0.1";
 		return wxPayService.prePayToUser(openid, partnerTradeNo1, checkName, reUserName, amount, desc, spbillCreateIp)
