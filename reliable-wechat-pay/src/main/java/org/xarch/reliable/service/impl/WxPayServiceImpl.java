@@ -99,8 +99,8 @@ public class WxPayServiceImpl implements WxPayService {
 			request.setOpenid(openid);
 			request.setPartnerTradeNo(partnerTradeNo);
 			request.setReUserName(reUserName);
-			request.setSign(SignUtils.createSign(request, wxPayConfig.getSignType(), wxPayConfig.getMchKey(), new String[0]));
 			request.setSpbillCreateIp(spbillCreateIp);
+			request.setSign(SignUtils.createSign(request, wxPayConfig.getSignType(), wxPayConfig.getMchKey(), new String[0]));
 			return baseWxPayService.payToUser(request);
 		} catch (Exception e) {
 			logger.error("BaseWxPayService : payToUser-->企业支付到零钱支付请求发生错误");
