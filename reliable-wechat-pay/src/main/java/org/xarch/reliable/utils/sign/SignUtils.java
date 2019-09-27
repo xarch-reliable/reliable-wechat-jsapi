@@ -15,16 +15,12 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xarch.reliable.model.domain.constant.WxPayConstants.SignType;
 import org.xarch.reliable.utils.transform.BaseResultTools;
 
 import com.google.common.collect.Lists;
 
 public class SignUtils {
-
-	private static final Logger logger = LoggerFactory.getLogger(SignUtils.class);
 	
 	/**
 	 * 微信支付签名算法(详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=4_3).
@@ -68,10 +64,8 @@ public class SignUtils {
 		toSign.append("key=").append(signKey);
 
 		if (SignType.HMAC_SHA256.equals(signType)) {
-			logger.info("[HMAC_SHA256加密算法] "+toSign.toString());
 			return SignUtils.createHmacSha256Sign(toSign.toString(), signKey);
 		}
-		logger.info("[连接商户key] "+toSign.toString());
 		return DigestUtils.md5Hex(toSign.toString()).toUpperCase();
 	}
 
