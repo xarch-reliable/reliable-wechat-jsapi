@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.ClearServer;
@@ -17,6 +18,9 @@ import org.xarch.reliable.utils.BaseResultTools;
 public class ClearServerImpl implements ClearServer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ClearServerImpl.class);
+	
+	@Autowired
+	private AmqpTemplate rabbitTemplate;
 	
 	@Autowired
 	private FeignDataManager feignDataManager;
@@ -56,8 +60,16 @@ public class ClearServerImpl implements ClearServer {
 		}
 		
 		for (Entry<String, Object> entry: ReliableMap.entrySet()) {
-			threadPool.RefundThread((String)entry.getValue());
-			threadPool.PayToUserThread(entry.getKey(), String.valueOf(System.currentTimeMillis()));
+			Map<String, Object> refundmap = new HashMap<String, Object>();
+			refundmap.put("out_trade_no", (String)entry.getValue());
+			refundmap.put("out_refund_no", String.valueOf(System.currentTimeMillis()));
+			rabbitTemplate.convertAndSend("pay.exchange", "refund.touser.test", BaseResultTools.JsonObjectToStr(refundmap));
+			Map<String, Object> pay2usermap = new HashMap<String, Object>();
+			pay2usermap.put("openid", entry.getKey());
+			pay2usermap.put("partner_trade_no", String.valueOf(System.currentTimeMillis()));
+			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
+			//threadPool.RefundThread((String)entry.getValue());
+			//threadPool.PayToUserThread(entry.getKey(), String.valueOf(System.currentTimeMillis()));
 		}
 		
 		Map<String, Object> resmap = new HashMap<String, Object>();

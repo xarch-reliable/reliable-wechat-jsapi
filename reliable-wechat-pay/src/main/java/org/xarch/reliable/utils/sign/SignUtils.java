@@ -16,7 +16,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xarch.reliable.model.domain.constant.WxPayConstants.SignType;
-import org.xarch.reliable.utils.transform.BaseResultTools;
+import org.xarch.reliable.utils.BaseResultTools;
 
 import com.google.common.collect.Lists;
 

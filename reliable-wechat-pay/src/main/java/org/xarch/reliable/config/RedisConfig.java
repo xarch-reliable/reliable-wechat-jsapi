@@ -1,4 +1,4 @@
-package org.xarch.reliable.config.redis;
+package org.xarch.reliable.config;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;

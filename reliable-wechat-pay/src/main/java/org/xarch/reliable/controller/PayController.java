@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.xarch.reliable.service.WxPayService;
-import org.xarch.reliable.utils.transform.BaseResultTools;
+import org.xarch.reliable.utils.BaseResultTools;
 
 import reactor.core.publisher.Mono;
 

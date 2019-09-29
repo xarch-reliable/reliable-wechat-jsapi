@@ -17,7 +17,7 @@ import org.xarch.reliable.model.repository.PayRefundResultRepository;
 import org.xarch.reliable.model.repository.PayUORequestRepository;
 import org.xarch.reliable.model.repository.PayUOResultRepository;
 import org.xarch.reliable.service.feign.FeignDataManager;
-import org.xarch.reliable.utils.transform.BaseResultTools;
+import org.xarch.reliable.utils.BaseResultTools;
 
 @Component
 public class ThreadPool {
