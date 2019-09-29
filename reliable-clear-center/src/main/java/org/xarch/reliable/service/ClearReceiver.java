@@ -21,11 +21,12 @@ public class ClearReceiver {
 	@Autowired
 	private ClearServer clearServer;
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RabbitHandler
 	public void receiveMessage(String datastr) {
 		logger.info("ClearReceiver 接受消息 : " + datastr);
-		Map<String, Object> data = BaseResultTools.ObjectToMap(datastr);
-		clearServer.parseClearData(data);
+		Map data = BaseResultTools.fromJSON(datastr, Map.class);
+		clearServer.parseClearData((Map<String, Object>)data);
 		return;
 	}
 	
