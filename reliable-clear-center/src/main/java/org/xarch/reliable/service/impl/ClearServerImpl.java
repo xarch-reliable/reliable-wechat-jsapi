@@ -40,7 +40,7 @@ public class ClearServerImpl implements ClearServer {
 	@Override
 	public Map<String, Object> ClearProcess(Map<String, Object> ReliableMap, Map<String, Object> UnReliableMap) {
 		Map<String, Object> resmap = new HashMap<String, Object>();
-		Integer sumTotalFee = new Integer(0);
+		double sumTotalFee = 0.0;
 		
 		Map<String, Object> sendmap = new HashMap<String, Object>();
 		sendmap.put("xrdataction", "getOrderTotalFee");
@@ -51,9 +51,12 @@ public class ClearServerImpl implements ClearServer {
 			sendmap.put("data", datatmp);
 			Map<String, Object> getTotalFeemap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
 			logger.info("[total_fee] " + (String)getTotalFeemap.get("total_fee"));
-			sumTotalFee += Integer.valueOf((String)getTotalFeemap.get("total_fee"));
+			sumTotalFee += Double.parseDouble((String)getTotalFeemap.get("total_fee"));
 		}
-		
+		double reliableMoney = sumTotalFee/(ReliableMap.size());
+		logger.info("[sumTotalFee] "+String.valueOf(sumTotalFee));
+		logger.info("[reliableMoney] "+String.valueOf(reliableMoney));
+
 		for (Entry<String, Object> entry: ReliableMap.entrySet()) {
 			
 			Map<String, Object> sendpayidmap1 = new HashMap<String, Object>();
@@ -87,10 +90,14 @@ public class ClearServerImpl implements ClearServer {
 				return resmap;
 			}
 			
+
+			
 			Map<String, Object> pay2usermap = new HashMap<String, Object>();
 			pay2usermap.put("openid", entry.getKey());
 			pay2usermap.put("partner_trade_no", payid2);
 			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
+
+			
 		}
 		
 
