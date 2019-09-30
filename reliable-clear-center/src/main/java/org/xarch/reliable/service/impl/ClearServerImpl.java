@@ -53,9 +53,8 @@ public class ClearServerImpl implements ClearServer {
 			logger.info("[total_fee] " + (String)getTotalFeemap.get("total_fee"));
 			sumTotalFee += Double.parseDouble((String)getTotalFeemap.get("total_fee"));
 		}
+		
 		double reliableMoney = sumTotalFee/(ReliableMap.size());
-		logger.info("[sumTotalFee] "+String.valueOf(sumTotalFee));
-		logger.info("[reliableMoney] "+String.valueOf(reliableMoney));
 
 		for (Entry<String, Object> entry: ReliableMap.entrySet()) {
 			
@@ -90,17 +89,16 @@ public class ClearServerImpl implements ClearServer {
 				return resmap;
 			}
 			
-
-			
 			Map<String, Object> pay2usermap = new HashMap<String, Object>();
 			pay2usermap.put("openid", entry.getKey());
 			pay2usermap.put("partner_trade_no", payid2);
+			pay2usermap.put("check_name", "NO_CHECK");
+			pay2usermap.put("re_user_name", "靠谱达人");
+			pay2usermap.put("amount", String.valueOf(reliableMoney));
+			pay2usermap.put("desc", "靠谱金");
 			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
 
-			
 		}
-		
-
 		resmap.put("success_msg", "清分成功");
 		return resmap;
 	}

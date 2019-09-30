@@ -41,13 +41,13 @@ public class PayMsgReceiver {
 	public void PayToUserReceive(String datastr) {
 		logger.info("PayToUserReceive 接收消息 : " +datastr);
 		Map data = BaseResultTools.fromJSON(datastr, Map.class);
-		String openid = (String)((Map<String, Object>)data).get("openid");
-		String partnerTradeNo = (String)((Map<String, Object>)data).get("partner_trade_no");
-		String checkName = "NO_CHECK";
-		String reUserName = "靠谱达人";
-		String amount = "30";
-		String desc = "靠谱金";
-		String spbillCreateIp = "127.0.0.1";
+		String openid 			= (String)((Map<String, Object>)data).get("openid");
+		String partnerTradeNo 	= (String)((Map<String, Object>)data).get("partner_trade_no");
+		String checkName 		= (String)((Map<String, Object>)data).get("check_name");
+		String reUserName 		= (String)((Map<String, Object>)data).get("re_user_name");
+		String amount 			= (String)((Map<String, Object>)data).get("amount");
+		String desc 			= (String)((Map<String, Object>)data).get("desc");
+		String spbillCreateIp 	= "127.0.0.1";
 		wxPayService.prePayToUser(openid, partnerTradeNo, checkName, reUserName, amount, desc, spbillCreateIp);
 		return;
 	}
