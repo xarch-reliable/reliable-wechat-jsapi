@@ -29,7 +29,9 @@ public class PayMsgReceiver {
 		Map data = BaseResultTools.fromJSON(datastr, Map.class);
 		String outRefundNo = (String)((Map<String, Object>)data).get("out_refund_no");
 		String outTradeNo = (String)((Map<String, Object>)data).get("out_trade_no");
-		wxPayService.refund(outRefundNo, outTradeNo);
+		String totalFee = (String)((Map<String, Object>)data).get("total_fee");
+		String refundFee = (String)((Map<String, Object>)data).get("refund_fee");
+		wxPayService.refund(outRefundNo, outTradeNo, totalFee, refundFee);
 		return;
 	}
 	

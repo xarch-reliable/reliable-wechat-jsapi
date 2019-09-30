@@ -14,9 +14,9 @@ public interface WxPayService {
 	public Mono<WxPayMpOrderResult> testCreateOrder_jsapi(String body, String outTradeNo, String totalFee, String ip,
 			String openid, String detail, String attach);
 	
-	public Mono<WxPayRefundResult> refund(String outRefundNo,String outTradeNo);
+	public Mono<WxPayRefundResult> refund(String outRefundNo,String outTradeNo, String TotalFee, String RefundFee);
 	
-	public Mono<WxPayRefundResult> refund_jsapi(String outRefundNo,String outTradeNo) throws Exception;
+	public Mono<WxPayRefundResult> refund_jsapi(String outRefundNo,String outTradeNo, String TotalFee, String RefundFee) throws Exception;
 	
 	public Mono<WechatPayToUserResponse> prePayToUser(String openid, String partnerTradeNo, String checkName, String reUserName, String amount, String desc, String spbillCreateIp);
 	

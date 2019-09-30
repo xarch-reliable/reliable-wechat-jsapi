@@ -60,7 +60,7 @@ public class WxPayServiceImpl implements WxPayService {
 	}
 
 	@Override
-	public Mono<WxPayRefundResult> refund_jsapi(String outRefundNo, String outTradeNo) throws Exception {
+	public Mono<WxPayRefundResult> refund_jsapi(String outRefundNo, String outTradeNo, String TotalFee, String RefundFee) throws Exception {
 		WxPayRefundRequest request = new WxPayRefundRequest();
 		request.setAppid(wxPayConfig.getAppId());
 		request.setMchId(wxPayConfig.getMchId());
@@ -69,16 +69,16 @@ public class WxPayServiceImpl implements WxPayService {
 		request.setSignType(wxPayConfig.getSignType());
 		request.setOutTradeNo(outTradeNo);
 		request.setOutRefundNo(outRefundNo);
-		request.setTotalFee("1");
-		request.setRefundFee("1");
+		request.setTotalFee(TotalFee);
+		request.setRefundFee(RefundFee);
 		request.setRefundFeeType("CNY");
 		return baseWxPayService.refund(request);
 	}
 
 	@Override
-	public Mono<WxPayRefundResult> refund(String outRefundNo, String outTradeNo) {
+	public Mono<WxPayRefundResult> refund(String outRefundNo, String outTradeNo, String TotalFee, String RefundFee) {
 		try {
-			return this.refund_jsapi(outRefundNo, outTradeNo);
+			return this.refund_jsapi(outRefundNo, outTradeNo, TotalFee, RefundFee);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

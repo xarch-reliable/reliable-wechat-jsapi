@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.xarch.reliable.service.WxPayService;
 import org.xarch.reliable.utils.BaseResultTools;
@@ -33,11 +32,13 @@ public class PayController {
 					return Mono.just(BaseResultTools.ObjectToMap(res));
 				});
 	}
-
+/*
 	@RequestMapping("/pay/refund")
 	public Mono<Map<String, Object>> PayRefund(@RequestParam(value = "payid", required = true) String payid) {
 		String outRefundNo = String.valueOf(System.currentTimeMillis())+payid;
-		return wxPayService.refund(outRefundNo, payid).flatMap(res -> {
+		String totalFee = "111";
+		String refundFee = "222";
+		return wxPayService.refund(outRefundNo, payid, totalFee, refundFee).flatMap(res -> {
 			return Mono.just(BaseResultTools.ObjectToMap(res));
 		});
 	}
@@ -56,4 +57,5 @@ public class PayController {
 					return Mono.just(BaseResultTools.ObjectToMap(res));
 				});
 	}
+*/
 }

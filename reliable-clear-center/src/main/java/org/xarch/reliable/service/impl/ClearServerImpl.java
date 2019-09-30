@@ -65,9 +65,16 @@ public class ClearServerImpl implements ClearServer {
 				return resmap;
 			}
 
+			Map<String, Object> datatmp = new HashMap<String, Object>();
+			datatmp.put("out_trade_no", entry.getValue());
+			sendmap.put("data", datatmp);
+			Map<String, Object> getTotalFeemap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
+			String totalFee = (String)getTotalFeemap.get("total_fee");
 			Map<String, Object> refundmap = new HashMap<String, Object>();
 			refundmap.put("out_trade_no", (String)entry.getValue());
 			refundmap.put("out_refund_no", payid1);
+			refundmap.put("total_fee", totalFee);
+			refundmap.put("refund_fee", totalFee);
 			rabbitTemplate.convertAndSend("pay.exchange", "refund.touser.test", BaseResultTools.JsonObjectToStr(refundmap));
 
 			
