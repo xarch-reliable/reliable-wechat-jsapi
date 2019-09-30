@@ -40,7 +40,7 @@ public class ClearServerImpl implements ClearServer {
 	@Override
 	public Map<String, Object> ClearProcess(Map<String, Object> ReliableMap, Map<String, Object> UnReliableMap) {
 		Map<String, Object> resmap = new HashMap<String, Object>();
-		double sumTotalFee = 0.0;
+		Integer sumTotalFee = new Integer(0);
 		
 		Map<String, Object> sendmap = new HashMap<String, Object>();
 		sendmap.put("xrdataction", "getOrderTotalFee");
@@ -51,10 +51,10 @@ public class ClearServerImpl implements ClearServer {
 			sendmap.put("data", datatmp);
 			Map<String, Object> getTotalFeemap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
 			logger.info("[total_fee] " + (String)getTotalFeemap.get("total_fee"));
-			sumTotalFee += Double.parseDouble((String)getTotalFeemap.get("total_fee"));
+			sumTotalFee += Integer.parseInt((String)getTotalFeemap.get("total_fee"));
 		}
 		
-		double reliableMoney = sumTotalFee/(ReliableMap.size());
+		Integer reliableMoney = sumTotalFee/(ReliableMap.size());
 
 		for (Entry<String, Object> entry: ReliableMap.entrySet()) {
 			
