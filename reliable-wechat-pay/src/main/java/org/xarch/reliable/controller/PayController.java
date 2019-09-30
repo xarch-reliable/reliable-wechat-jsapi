@@ -3,6 +3,7 @@ package org.xarch.reliable.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,12 +20,13 @@ public class PayController {
 	private WxPayService wxPayService;
 
 	@RequestMapping("/pay/h5")
-	public Mono<Map<String, Object>> PayMpOrder(@RequestParam(value = "openid", required = true) String openid,
-			@RequestParam(value = "payid", required = true) String outTradeNo, @RequestParam(value = "actid", required = true) String actid) {
-		String body = "测试";
-		String detail = "保证红包";
-		String attach = actid;
-		String totalFee = "1";
+	public Mono<Map<String, Object>> PayMpOrder(@RequestBody Map<String, Object> requestdata) {
+		String body = (String)requestdata.get("body");
+		String detail = (String)requestdata.get("detail");
+		String attach = (String)requestdata.get("attach");
+		String totalFee = (String)requestdata.get("total_fee");
+		String outTradeNo = (String)requestdata.get("out_trade_no");
+		String openid = (String)requestdata.get("openid");
 		String ip = "127.0.0.1";
 		return wxPayService.testCreateOrder_jsapi(body, outTradeNo, totalFee, ip, openid, detail, attach)
 				.flatMap(res -> {

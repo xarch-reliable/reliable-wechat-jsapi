@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.ClearServer;
 import org.xarch.reliable.service.feign.FeignDataManager;
-import org.xarch.reliable.service.thread.ThreadPool;
 import org.xarch.reliable.utils.BaseResultTools;
 
 @Service
@@ -24,10 +23,6 @@ public class ClearServerImpl implements ClearServer {
 	
 	@Autowired
 	private FeignDataManager feignDataManager;
-	
-	//线程管理者
-	@Autowired
-	private ThreadPool threadPool;
 	
 	@Override
 	public Map<String, Object> parseClearData(Map<String, Object> data) {
@@ -44,7 +39,7 @@ public class ClearServerImpl implements ClearServer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> ClearProcess(Map<String, Object> ReliableMap, Map<String, Object> UnReliableMap) {
-		
+		Map<String, Object> resmap = new HashMap<String, Object>();
 		Integer sumTotalFee = new Integer(0);
 		
 		Map<String, Object> sendmap = new HashMap<String, Object>();
@@ -54,25 +49,44 @@ public class ClearServerImpl implements ClearServer {
 			Map<String, Object> datatmp = new HashMap<String, Object>();
 			datatmp.put("out_trade_no", entry.getValue());
 			sendmap.put("data", datatmp);
-			Map<String, Object> resmap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
-			logger.info("[total_fee] " + (String)resmap.get("total_fee"));
-			sumTotalFee += Integer.valueOf((String)resmap.get("total_fee"));
+			Map<String, Object> getTotalFeemap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
+			logger.info("[total_fee] " + (String)getTotalFeemap.get("total_fee"));
+			sumTotalFee += Integer.valueOf((String)getTotalFeemap.get("total_fee"));
 		}
 		
 		for (Entry<String, Object> entry: ReliableMap.entrySet()) {
+			
+			Map<String, Object> sendpayidmap1 = new HashMap<String, Object>();
+			sendpayidmap1.put("xrdataction", "getpayid");
+			Map<String, Object> payidmap1 = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendpayidmap1).get("body");
+			String payid1 = (String)payidmap1.get("payid");
+			if (payid1 == null) {
+				resmap.put("error_msg", "payID获取失败");
+				return resmap;
+			}
+
 			Map<String, Object> refundmap = new HashMap<String, Object>();
 			refundmap.put("out_trade_no", (String)entry.getValue());
-			refundmap.put("out_refund_no", String.valueOf(System.currentTimeMillis()));
+			refundmap.put("out_refund_no", payid1);
 			rabbitTemplate.convertAndSend("pay.exchange", "refund.touser.test", BaseResultTools.JsonObjectToStr(refundmap));
+
+			
+			Map<String, Object> sendpayidmap2 = new HashMap<String, Object>();
+			sendpayidmap2.put("xrdataction", "getpayid");
+			Map<String, Object> payidmap2 = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendpayidmap2).get("body");
+			String payid2 = (String)payidmap2.get("payid");
+			if (payid2 == null) {
+				resmap.put("error_msg", "payID获取失败");
+				return resmap;
+			}
+			
 			Map<String, Object> pay2usermap = new HashMap<String, Object>();
 			pay2usermap.put("openid", entry.getKey());
-			pay2usermap.put("partner_trade_no", String.valueOf(System.currentTimeMillis()));
+			pay2usermap.put("partner_trade_no", payid2);
 			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
-			//threadPool.RefundThread((String)entry.getValue());
-			//threadPool.PayToUserThread(entry.getKey(), String.valueOf(System.currentTimeMillis()));
 		}
 		
-		Map<String, Object> resmap = new HashMap<String, Object>();
+
 		resmap.put("success_msg", "清分成功");
 		return resmap;
 	}
