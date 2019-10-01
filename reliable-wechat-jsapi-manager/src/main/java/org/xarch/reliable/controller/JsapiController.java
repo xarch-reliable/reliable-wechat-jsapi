@@ -11,6 +11,8 @@ import org.xarch.reliable.service.MediaUpload;
 import org.xarch.reliable.service.jsapi.JsApiManager;
 import org.xarch.reliable.utils.BaseResultTools;
 
+import com.alibaba.fastjson.JSONObject;
+
 @RestController
 public class JsapiController {
 
@@ -27,8 +29,8 @@ public class JsapiController {
 	}
 	
 	@RequestMapping("/test/test")
-	public String Test(@RequestParam(value = "filePath", required = true) String filePath,
-			@RequestParam(value = "fileType", required = true) String fileType) {
-		return mediaUpload.upload(filePath, fileType);
+	public JSONObject Test(@RequestParam(value = "filePath", required = true) String filePath,
+			@RequestParam(value = "fileType", required = true) String fileType) throws Exception {
+		return mediaUpload.UploadMeida(filePath, fileType);
 	}
 }

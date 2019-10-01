@@ -1,7 +1,9 @@
 package org.xarch.reliable.service;
 
+import com.alibaba.fastjson.JSONObject;
+
 public interface MediaUpload {
 
-	public String upload(String filePath,String fileType);
+	public JSONObject UploadMeida(String filePath,String fileType) throws Exception;
 	
 }
