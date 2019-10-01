@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -19,7 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.MediaUpload;
 import org.xarch.reliable.service.feign.FeignCentralManager;
-import org.xarch.reliable.utils.BaseResultTools;
+
+import com.alibaba.fastjson.JSONObject;
 
 @Service
 public class MediaUploadImpl implements MediaUpload{
@@ -39,7 +41,7 @@ public class MediaUploadImpl implements MediaUpload{
 	 */
 	@Override
     public Map<String, Object> UploadMeida(String filePath, String fileType) throws Exception{
-		logger.info("filePath="+filePath+"  fileType="+fileType);
+		Map<String, Object> resmap = new HashMap<String, Object>();
 		
         //返回结果
         String result=null;
@@ -113,6 +115,8 @@ public class MediaUploadImpl implements MediaUpload{
                 }
             }
         }
-        return BaseResultTools.ObjectToMap(result);
+        JSONObject json = JSONObject.parseObject(result);
+        resmap.put("media_id", json.getString("media_id"));
+        return resmap;
     }
 }
