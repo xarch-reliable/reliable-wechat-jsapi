@@ -1,4 +1,4 @@
-package org.xarch.reliable.model.doman.jsapi;
+package org.xarch.reliable.model.doman;
 
 import java.io.Serializable;
 

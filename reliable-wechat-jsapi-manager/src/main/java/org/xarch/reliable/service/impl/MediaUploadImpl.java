@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Map;
+
 import javax.net.ssl.HttpsURLConnection;
 
 import org.slf4j.Logger;
@@ -17,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.MediaUpload;
 import org.xarch.reliable.service.feign.FeignCentralManager;
-import com.alibaba.fastjson.JSONObject;
+import org.xarch.reliable.utils.BaseResultTools;
 
 @Service
 public class MediaUploadImpl implements MediaUpload{
@@ -36,7 +38,7 @@ public class MediaUploadImpl implements MediaUpload{
 	 * @return
 	 */
 	@Override
-    public JSONObject UploadMeida(String filePath, String fileType) throws Exception{
+    public Map<String, Object> UploadMeida(String filePath, String fileType) throws Exception{
 		logger.info("filePath="+filePath+"  fileType="+fileType);
 		
         //返回结果
@@ -48,7 +50,6 @@ public class MediaUploadImpl implements MediaUpload{
         }
         String token= (String)feignCentralManager.getAccessToken().get("access_token");
         String urlString="https://api.weixin.qq.com/cgi-bin/media/upload?access_token="+token+"&type="+fileType;
-        logger.info("url : "+urlString);
         URL url=new URL(urlString);
         HttpsURLConnection conn=(HttpsURLConnection) url.openConnection();
         conn.setRequestMethod("POST");//以POST方式提交表单
@@ -69,7 +70,6 @@ public class MediaUploadImpl implements MediaUpload{
         sb.append("\r\n");
         sb.append("Content-Disposition: form-data;name=\"media\"; filename=\"" + file.getName()+"\"\r\n");
         sb.append("Content-Type:application/octet-stream\r\n\r\n");
-        logger.info("sb:"+sb);
 
         //获得输出流
         OutputStream out=new DataOutputStream(conn.getOutputStream());
@@ -103,7 +103,6 @@ public class MediaUploadImpl implements MediaUpload{
                 }
                 if(result==null){
                     result=strbuffer.toString();
-                    logger.info("result : "+result);
                 }
             } catch (IOException e) {
                 logger.info("发送POST请求出现异常！"+e);
@@ -113,10 +112,7 @@ public class MediaUploadImpl implements MediaUpload{
                     reader.close();
                 }
             }
-
         }
-        JSONObject jsonObject=JSONObject.parseObject(result);
-        return jsonObject;
-
+        return BaseResultTools.ObjectToMap(result);
     }
 }
