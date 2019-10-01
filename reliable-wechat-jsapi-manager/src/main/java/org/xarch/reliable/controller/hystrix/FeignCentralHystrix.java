@@ -1,5 +1,7 @@
 package org.xarch.reliable.controller.hystrix;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.feign.FeignCentralManager;
 
@@ -8,9 +10,9 @@ import org.xarch.reliable.service.feign.FeignCentralManager;
 public class FeignCentralHystrix implements FeignCentralManager {
 
 	@Override
-	public String getAccessToken() {
+	public Map<String, Object> getAccessToken() {
 		// TODO Auto-generated method stub
-		return "getAccessToken->error";
+		return null;
 	}
 
 	@Override
