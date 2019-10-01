@@ -1,6 +1,5 @@
 package org.xarch.reliable.controller;
 
-import java.io.File;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xarch.reliable.model.doman.JsApiParams;
 import org.xarch.reliable.service.JsApiManager;
 import org.xarch.reliable.service.MediaUpload;
-import org.xarch.reliable.service.QrCodeService;
 import org.xarch.reliable.utils.BaseResultTools;
 import org.xarch.reliable.utils.QRCodeUtil;
 
@@ -22,9 +20,6 @@ public class JsapiController {
 	
 	@Autowired
 	private MediaUpload mediaUpload;
-	
-	@Autowired
-	private QrCodeService qrCodeService;
 
 	@RequestMapping("jsapi/share/signature")
 	public Map<String, Object> Support(@RequestParam(value = "url", required = true) String url) {
