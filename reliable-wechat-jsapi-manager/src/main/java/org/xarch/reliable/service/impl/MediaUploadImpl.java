@@ -41,7 +41,7 @@ public class MediaUploadImpl implements MediaUpload{
 		
         //返回结果
         String result=null;
-        File file=new File(filePath);
+        File file=new File("/var/www/images/test.jpg");
         if(!file.exists()||!file.isFile()){
         	logger.info("文件不存在");
             throw new IOException("文件不存在");
