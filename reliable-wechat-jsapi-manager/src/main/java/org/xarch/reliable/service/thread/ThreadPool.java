@@ -13,7 +13,7 @@ public class ThreadPool {
 	private static final Logger logger = LoggerFactory.getLogger(ThreadPool.class);
 	
 	@Async("asyncExecutor")
-	public static boolean DeleteFolder(String sPath) {
+	public boolean DeleteFolder(String sPath) {
 		boolean flag = false;
 		File file = new File(sPath);
 	    // 路径为文件且不为空则进行删除

@@ -25,6 +25,10 @@ public class QrCodeServiceImpl implements QrCodeService {
 	@Autowired
 	private FeignMessageManager feignMessageManager;
 	
+	//线程管理者
+	@Autowired
+	private ThreadPool threadPool;
+	
 	@Override
 	public Map<String, Object> CreateQRCodeAPush(String actid, String key, Integer imageSize, String openid) throws Exception {
 		Map<String, Object> resmap = new HashMap<String, Object>();
@@ -49,7 +53,7 @@ public class QrCodeServiceImpl implements QrCodeService {
 			resmap.put("error_msg", "临时素材上传失败");
 		}
 		
-		ThreadPool.DeleteFolder(imagePath);
+		threadPool.DeleteFolder(imagePath);
 		
 		return resmap;
 	}
