@@ -13,7 +13,7 @@ spring:
     name: reliable-wechat-jsapi-manager
   cloud:
     config:
-      name: rabbitmq-bus,weixin-info,logback-web-debug,feign,ribbon-eager-load-jsapi #此处指定多个文件名即可
+      name: rabbitmq-bus,async-thread,weixin-info,logback-web-debug,feign,ribbon-eager-load-jsapi #此处指定多个文件名即可
       profile: dev
       label: master
       discovery:

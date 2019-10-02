@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.MediaUpload;
 import org.xarch.reliable.service.QrCodeService;
 import org.xarch.reliable.service.feign.FeignMessageManager;
+import org.xarch.reliable.service.thread.ThreadPool;
 import org.xarch.reliable.utils.QRCodeUtil;
 
 @Service
@@ -47,6 +48,8 @@ public class QrCodeServiceImpl implements QrCodeService {
 		}else {
 			resmap.put("error_msg", "临时素材上传失败");
 		}
+		
+		ThreadPool.DeleteFolder(imagePath);
 		
 		return resmap;
 	}
