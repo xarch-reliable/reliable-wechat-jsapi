@@ -1,9 +1,9 @@
 package org.xarch.reliable.service;
 
-import java.io.File;
+import java.util.Map;
 
 public interface QrCodeService {
 
-	public String drawLogoQRCode(File logoFile, File codeFile, String qrUrl, String note);
+	public Map<String, Object> CreateQRCodeAPush(String actid, String key, Integer imageSize, String openid) throws Exception;
 
 }

@@ -1,5 +1,6 @@
 package org.xarch.reliable.controller.hystrix;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -11,13 +12,13 @@ public class FeignCentralHystrix implements FeignCentralManager {
 
 	@Override
 	public Map<String, Object> getAccessToken() {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("error_msg", "[FeignCentralHystrix]发起数据请求失败");
+		return map;
 	}
 
 	@Override
 	public String getTicket() {
-		// TODO Auto-generated method stub
 		return "getTicket->error";
 	}
 
