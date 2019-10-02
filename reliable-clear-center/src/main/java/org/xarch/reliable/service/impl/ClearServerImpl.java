@@ -28,17 +28,18 @@ public class ClearServerImpl implements ClearServer {
 	public Map<String, Object> parseClearData(Map<String, Object> data) {
 		Map<String, Object> reliableMap = BaseResultTools.ObjectToMap(data.get("ReliableMap"));
 		Map<String, Object> unreliableMap = BaseResultTools.ObjectToMap(data.get("UnReliableMap"));
+		String actid = (String)data.get("actid");
 		if(reliableMap==null || unreliableMap==null) {
 			Map<String, Object> resmap = new HashMap<String, Object>();
 			resmap.put("error_msg", "清分数据格式错误");
 			return resmap;
 		}
-		return ClearProcess(reliableMap, unreliableMap);
+		return ClearProcess(reliableMap, unreliableMap,actid);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> ClearProcess(Map<String, Object> ReliableMap, Map<String, Object> UnReliableMap) {
+	public Map<String, Object> ClearProcess(Map<String, Object> ReliableMap, Map<String, Object> UnReliableMap, String actid) {
 		Map<String, Object> resmap = new HashMap<String, Object>();
 		Integer sumTotalFee = new Integer(0);
 		
@@ -97,7 +98,15 @@ public class ClearServerImpl implements ClearServer {
 			pay2usermap.put("amount", String.valueOf(reliableMoney));
 			pay2usermap.put("desc", "靠谱金");
 			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
-
+			
+			Map<String, Object> billmap = new HashMap<String, Object>();
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("openid", entry.getKey());
+			data.put("actid", actid);
+			billmap.put("xrdataction", "setBillinfo");
+			billmap.put("data", data);
+			feignDataManager.doSupport2DataCenter(billmap);
+			
 		}
 		resmap.put("success_msg", "清分成功");
 		return resmap;
