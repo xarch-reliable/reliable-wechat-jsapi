@@ -53,6 +53,16 @@ public class ClearServerImpl implements ClearServer {
 			Map<String, Object> getTotalFeemap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
 			logger.info("[total_fee] " + (String)getTotalFeemap.get("total_fee"));
 			sumTotalFee += Integer.parseInt((String)getTotalFeemap.get("total_fee"));
+			
+			/*
+			 * Map<String, Object> billmap = new HashMap<String, Object>(); Map<String,
+			 * Object> data = new HashMap<String, Object>(); data.put("openid",
+			 * entry.getKey()); data.put("actid", actid); data.put("reliableMoney",
+			 * String.valueOf(-Integer.parseInt((String)getTotalFeemap.get("total_fee"))));
+			 * billmap.put("xrdataction", "setBillinfo"); billmap.put("data", data);
+			 * feignDataManager.doSupport2DataCenter(billmap);
+			 */
+			
 		}
 		
 		Integer reliableMoney = sumTotalFee/(ReliableMap.size());
@@ -103,7 +113,7 @@ public class ClearServerImpl implements ClearServer {
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("openid", entry.getKey());
 			data.put("actid", actid);
-			data.put("reliableMoney", pay2usermap.get("amount"));
+			data.put("reliableMoney", String.valueOf(reliableMoney));
 			billmap.put("xrdataction", "setBillinfo");
 			billmap.put("data", data);
 			feignDataManager.doSupport2DataCenter(billmap);
