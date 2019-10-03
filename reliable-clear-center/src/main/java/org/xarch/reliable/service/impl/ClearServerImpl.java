@@ -58,7 +58,7 @@ public class ClearServerImpl implements ClearServer {
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("openid", entry.getKey());
 			data.put("actid", actid);
-			data.put("reliableMoney", -Integer.parseInt((String)getTotalFeemap.get("total_fee")));
+			data.put("reliableMoney", String.valueOf(-sumTotalFee/(UnReliableMap.size())));
 			billmap.put("xrdataction", "setBillinfo");
 			billmap.put("data", data);
 			feignDataManager.doSupport2DataCenter(billmap);
