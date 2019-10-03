@@ -117,6 +117,7 @@ public class ClearServerImpl implements ClearServer {
 			billmap.put("xrdataction", "setBillinfo");
 			billmap.put("data", data);
 			feignDataManager.doSupport2DataCenter(billmap);
+			logger.info("billmap"+billmap);
 			
 		}
 		resmap.put("success_msg", "清分成功");
