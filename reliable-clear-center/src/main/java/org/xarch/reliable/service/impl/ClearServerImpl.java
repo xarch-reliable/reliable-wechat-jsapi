@@ -52,13 +52,15 @@ public class ClearServerImpl implements ClearServer {
 			sendmap.put("data", datatmp);
 			Map<String, Object> getTotalFeemap = (Map<String, Object>)feignDataManager.doSupport2DataCenter(sendmap).get("body");
 			logger.info("[total_fee] " + (String)getTotalFeemap.get("total_fee"));
+			int reliablemoney = Integer.parseInt((String)getTotalFeemap.get("total_fee"));
+			
 			sumTotalFee += Integer.parseInt((String)getTotalFeemap.get("total_fee"));
 			
 			Map<String, Object> billmap = new HashMap<String, Object>();
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("openid", entry.getKey());
 			data.put("actid", actid);
-			data.put("reliableMoney", String.valueOf(-sumTotalFee/(UnReliableMap.size())));
+			data.put("reliableMoney", String.valueOf(-reliablemoney));
 			billmap.put("xrdataction", "setBillinfo");
 			billmap.put("data", data);
 			feignDataManager.doSupport2DataCenter(billmap);
