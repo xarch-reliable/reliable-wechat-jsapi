@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xarch.reliable.model.doman.JsApiParams;
 import org.xarch.reliable.service.JsApiManager;
 import org.xarch.reliable.service.CheckQrCodeService;
+import org.xarch.reliable.service.JoinQrCodeService;
 import org.xarch.reliable.utils.BaseResultTools;
+
+import reactor.core.publisher.Mono;
 
 @RestController
 public class JsapiController {
@@ -19,6 +22,9 @@ public class JsapiController {
 	
 	@Autowired
 	private CheckQrCodeService qrCodeService;
+	
+	@Autowired
+	private JoinQrCodeService joinQrCodeService;
 
 	@RequestMapping("jsapi/share/signature")
 	public Map<String, Object> Support(@RequestParam(value = "url", required = true) String url) {
@@ -27,8 +33,15 @@ public class JsapiController {
 	}
 	 
 	 @RequestMapping("/push/qrcode/to/user")
-	  public Map<String, Object> PushQrCode(@RequestParam(value = "actid", required = true) String actid,
+	  public Map<String, Object> PushCheckQrCode(@RequestParam(value = "actid", required = true) String actid,
 			  @RequestParam(value = "openid", required = true) String openid) throws Exception{
 	    return qrCodeService.CreateQRCodeAPush(actid, "true", 400, openid);
+	 }
+	 
+	 @RequestMapping("/push/join/qrcode/to/user")
+	  public Mono<Map<String, Object>> PushJoinQrCode(@RequestParam(value = "actid", required = true) String actid,
+			  @RequestParam(value = "openid", required = true) String openid) throws Exception{
+		 return joinQrCodeService.createForeverTicket(actid, openid);
+	    
 	 }
 }
