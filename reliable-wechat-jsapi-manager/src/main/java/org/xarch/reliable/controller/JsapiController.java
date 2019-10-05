@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.xarch.reliable.model.doman.JsApiParams;
 import org.xarch.reliable.service.JsApiManager;
-import org.xarch.reliable.service.QrCodeService;
+import org.xarch.reliable.service.CheckQrCodeService;
 import org.xarch.reliable.utils.BaseResultTools;
 
 @RestController
@@ -18,7 +18,7 @@ public class JsapiController {
 	private JsApiManager jsApiManager;
 	
 	@Autowired
-	private QrCodeService qrCodeService;
+	private CheckQrCodeService qrCodeService;
 
 	@RequestMapping("jsapi/share/signature")
 	public Map<String, Object> Support(@RequestParam(value = "url", required = true) String url) {

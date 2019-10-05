@@ -7,13 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.MediaUpload;
-import org.xarch.reliable.service.QrCodeService;
+import org.xarch.reliable.service.CheckQrCodeService;
 import org.xarch.reliable.service.feign.FeignMessageManager;
 import org.xarch.reliable.service.thread.ThreadPool;
 import org.xarch.reliable.utils.QRCodeUtil;
 
 @Service
-public class QrCodeServiceImpl implements QrCodeService {
+public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 	
 	private static final String qrUrlBase = "https://www.xarchgroup.net/test/dist/index.html#qrcode";
 	private static final String imagePathBase = "/root/images/";
