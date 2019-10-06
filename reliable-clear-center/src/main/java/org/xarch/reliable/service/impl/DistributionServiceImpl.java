@@ -43,7 +43,7 @@ public class DistributionServiceImpl implements DistributionService {
 
 		//分配红包
 		for (Entry<String, Object> entry: ReliableMap.entrySet()) {
-			int reliableMoney = RandomUtil.randomRedPacket(sumTotalFee, 1, max, count);
+			int reliableMoney = RandomUtil.randomRedPacket(sumTotalFee, 30, max, count);
 			sumTotalFee -= reliableMoney;
 			count--;
 			
@@ -61,7 +61,7 @@ public class DistributionServiceImpl implements DistributionService {
 			pay2usermap.put("check_name", "NO_CHECK");
 			pay2usermap.put("re_user_name", "靠谱达人");
 			pay2usermap.put("amount", String.valueOf(reliableMoney));
-			pay2usermap.put("desc", "靠谱金");
+			pay2usermap.put("desc", "随机分配靠谱金");
 			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
 			
 			Map<String, Object> billmap = new HashMap<String, Object>();
@@ -120,7 +120,7 @@ public class DistributionServiceImpl implements DistributionService {
 			pay2usermap.put("check_name", "NO_CHECK");
 			pay2usermap.put("re_user_name", "靠谱达人");
 			pay2usermap.put("amount", String.valueOf(reliableMoney));
-			pay2usermap.put("desc", "靠谱金");
+			pay2usermap.put("desc", "平均分配靠谱金");
 			rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
 			
 			Map<String, Object> billmap = new HashMap<String, Object>();
@@ -160,7 +160,7 @@ public class DistributionServiceImpl implements DistributionService {
 		pay2usermap.put("check_name", "NO_CHECK");
 		pay2usermap.put("re_user_name", "靠谱达人");
 		pay2usermap.put("amount", String.valueOf(sumTotalFee));
-		pay2usermap.put("desc", "靠谱金");
+		pay2usermap.put("desc", "恭喜您获得了该活动的全部靠谱金");
 		rabbitTemplate.convertAndSend("pay.exchange", "pay.touser.test", BaseResultTools.JsonObjectToStr(pay2usermap));
 		
 		Map<String, Object> billmap = new HashMap<String, Object>();
