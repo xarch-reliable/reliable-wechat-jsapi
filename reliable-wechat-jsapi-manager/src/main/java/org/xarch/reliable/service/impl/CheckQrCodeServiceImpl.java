@@ -33,7 +33,7 @@ public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 	public Map<String, Object> CreateQRCodeAPush(String actid, String key, Integer imageSize, String openid) throws Exception {
 		Map<String, Object> resmap = new HashMap<String, Object>();
 		String qrUrl = qrUrlBase+"?actid="+actid+"&key="+key;
-		String imagePath = imagePathBase+actid+".jpg";
+		String imagePath = imagePathBase+actid+"check.jpg";
 		String media_id = null;
 		if(QRCodeUtil.zxingCodeCreate(qrUrl, imagePath, imageSize, logoPath)) {
 			media_id = mediaUpload.UploadMeida(imagePath, "image");
@@ -53,7 +53,7 @@ public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 			resmap.put("error_msg", "临时素材上传失败");
 		}
 		
-		threadPool.DeleteFolder(imagePath);
+		//threadPool.DeleteFolder(imagePath);
 		
 		return resmap;
 	}

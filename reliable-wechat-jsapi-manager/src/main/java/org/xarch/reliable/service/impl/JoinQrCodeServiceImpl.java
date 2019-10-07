@@ -50,7 +50,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
         return webHttpUtil.CreateWechatQrCodeWebPost(sendJsonObj).flatMap(r -> {
         	String ticket = r.getTicket();
         	if(ticket != null) {
-	        	String imagePath = getQrcode(ticket);
+	        	String imagePath = getQrcode(ticket, actid);
 	        	String media_id = null;
 				try {
 					media_id = mediaUpload.UploadMeida(imagePath, "image");
@@ -71,7 +71,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 	    		}else {
 	    			resmap.put("error_msg", "临时素材上传失败");
 	    		}
-	    		threadPool.DeleteFolder(imagePath);
+	    		//threadPool.DeleteFolder(imagePath);
         	}else {
         		resmap.put("error_msg", "获取ticket失败");
         	}
@@ -80,7 +80,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 	}
 
 	@Override
-	public String getQrcode(String ticket) {
+	public String getQrcode(String ticket, String actid) {
 		String filepath = null;
 		String requestUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+ticket;
 		String savepath = "/root/images/";
@@ -92,7 +92,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 			conn.setRequestMethod("GET");
 			
 			// 将ticket 作为文件名
-			filepath = savepath + ticket + ".jpg";
+			filepath = savepath + actid + "share.jpg";
  
 			// 将微信服务器返回的输入流写入文件
  

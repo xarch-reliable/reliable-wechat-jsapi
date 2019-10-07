@@ -8,5 +8,5 @@ public interface JoinQrCodeService {
 
 	public Mono<Map<String, Object>> createForeverTicket(String actid, String openid);
 	
-	public String getQrcode(String ticket);
+	public String getQrcode(String ticket, String actid);
 }
