@@ -4,8 +4,10 @@ package org.xarch.reliable.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.CheckQrCodeService;
+import org.xarch.reliable.service.thread.ThreadPool;
 import org.xarch.reliable.utils.QRCodeUtil;
 
 @Service
@@ -21,14 +23,17 @@ public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 	
 	@Autowired
 	private FeignMessageManager feignMessageManager;
+		*/
 	
 	//线程管理者
 	@Autowired
 	private ThreadPool threadPool;
-	*/
+
 	
 	@Override
 	public Map<String, Object> CreateQRCodeAPush(String actid, String key, Integer imageSize) throws Exception {
+		
+		threadPool.CreateShareQrCode(actid);
 		Map<String, Object> resmap = new HashMap<String, Object>();
 		String qrUrl = qrUrlBase+"?actid="+actid+"&key="+key;
 		String imagePath = imagePathBase+actid+"check.jpg";

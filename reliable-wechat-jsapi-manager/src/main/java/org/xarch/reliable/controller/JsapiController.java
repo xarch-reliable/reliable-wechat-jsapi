@@ -34,7 +34,7 @@ public class JsapiController {
 	 
 	 @RequestMapping("/push/check/qrcode/to/user")
 	  public Map<String, Object> PushCheckQrCode(@RequestParam(value = "actid", required = true) String actid) throws Exception{
-	    return checkQrCodeService.CreateQRCodeAPush(actid, "true", 400);
+		 return checkQrCodeService.CreateQRCodeAPush(actid, "true", 250);
 	 }
 	 
 	 @RequestMapping("/push/share/qrcode/to/user")
