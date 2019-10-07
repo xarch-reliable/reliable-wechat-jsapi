@@ -4,12 +4,8 @@ package org.xarch.reliable.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xarch.reliable.service.MediaUpload;
 import org.xarch.reliable.service.CheckQrCodeService;
-import org.xarch.reliable.service.feign.FeignMessageManager;
-import org.xarch.reliable.service.thread.ThreadPool;
 import org.xarch.reliable.utils.QRCodeUtil;
 
 @Service
@@ -19,6 +15,7 @@ public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 	private static final String imagePathBase = "/root/images/";
 	private static final String logoPath = "/root/images/logo.jpg";
 	
+	/*
 	@Autowired
 	private MediaUpload mediaUpload;
 	
@@ -28,12 +25,20 @@ public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 	//线程管理者
 	@Autowired
 	private ThreadPool threadPool;
+	*/
 	
 	@Override
-	public Map<String, Object> CreateQRCodeAPush(String actid, String key, Integer imageSize, String openid) throws Exception {
+	public Map<String, Object> CreateQRCodeAPush(String actid, String key, Integer imageSize) throws Exception {
 		Map<String, Object> resmap = new HashMap<String, Object>();
 		String qrUrl = qrUrlBase+"?actid="+actid+"&key="+key;
 		String imagePath = imagePathBase+actid+"check.jpg";
+		
+		if(QRCodeUtil.zxingCodeCreate(qrUrl, imagePath, imageSize, logoPath)) {
+			resmap.put("success", "签到二维码创建成功");
+		}else {
+			resmap.put("error_msg", "签到二维码创建失败");
+		}
+		/*
 		String media_id = null;
 		if(QRCodeUtil.zxingCodeCreate(qrUrl, imagePath, imageSize, logoPath)) {
 			media_id = mediaUpload.UploadMeida(imagePath, "image");
@@ -54,6 +59,7 @@ public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 		}
 		
 		//threadPool.DeleteFolder(imagePath);
+		*/
 		
 		return resmap;
 	}

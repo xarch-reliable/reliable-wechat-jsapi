@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface JoinQrCodeService {
 
-	public Mono<Map<String, Object>> createForeverTicket(String actid, String openid);
+	public Mono<Map<String, Object>> createForeverTicket(String actid);
 	
 	public String getQrcode(String ticket, String actid);
 }

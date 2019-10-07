@@ -11,9 +11,6 @@ import javax.net.ssl.HttpsURLConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.JoinQrCodeService;
-import org.xarch.reliable.service.MediaUpload;
-import org.xarch.reliable.service.feign.FeignMessageManager;
-import org.xarch.reliable.service.thread.ThreadPool;
 import org.xarch.reliable.utils.WebHttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import reactor.core.publisher.Mono;
@@ -24,6 +21,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 	@Autowired
 	private WebHttpUtil webHttpUtil;
 	
+	/*
 	@Autowired
 	private MediaUpload mediaUpload;
 	
@@ -33,9 +31,10 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 	//线程管理者
 	@Autowired
 	private ThreadPool threadPool;
+	*/
 	
 	@Override
-	public Mono<Map<String, Object>> createForeverTicket(String actid, String openid) {
+	public Mono<Map<String, Object>> createForeverTicket(String actid) {
 		
 		Map<String, Object> resmap = new HashMap<String, Object>();
 		
@@ -51,6 +50,8 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
         	String ticket = r.getTicket();
         	if(ticket != null) {
 	        	String imagePath = getQrcode(ticket, actid);
+	        	resmap.put("success_msg", imagePath);
+	        	/*
 	        	String media_id = null;
 				try {
 					media_id = mediaUpload.UploadMeida(imagePath, "image");
@@ -72,6 +73,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 	    			resmap.put("error_msg", "临时素材上传失败");
 	    		}
 	    		//threadPool.DeleteFolder(imagePath);
+	    		 */
         	}else {
         		resmap.put("error_msg", "获取ticket失败");
         	}

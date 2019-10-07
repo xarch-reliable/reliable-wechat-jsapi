@@ -21,7 +21,7 @@ public class JsapiController {
 	private JsApiManager jsApiManager;
 	
 	@Autowired
-	private CheckQrCodeService qrCodeService;
+	private CheckQrCodeService checkQrCodeService;
 	
 	@Autowired
 	private JoinQrCodeService joinQrCodeService;
@@ -32,16 +32,14 @@ public class JsapiController {
 		return BaseResultTools.ObjectToMap(jsApiParams);
 	}
 	 
-	 @RequestMapping("/push/qrcode/to/user")
-	  public Map<String, Object> PushCheckQrCode(@RequestParam(value = "actid", required = true) String actid,
-			  @RequestParam(value = "openid", required = true) String openid) throws Exception{
-	    return qrCodeService.CreateQRCodeAPush(actid, "true", 400, openid);
+	 @RequestMapping("/push/check/qrcode/to/user")
+	  public Map<String, Object> PushCheckQrCode(@RequestParam(value = "actid", required = true) String actid) throws Exception{
+	    return checkQrCodeService.CreateQRCodeAPush(actid, "true", 400);
 	 }
 	 
-	 @RequestMapping("/push/join/qrcode/to/user")
-	  public Mono<Map<String, Object>> PushJoinQrCode(@RequestParam(value = "actid", required = true) String actid,
-			  @RequestParam(value = "openid", required = true) String openid) throws Exception{
-		 return joinQrCodeService.createForeverTicket(actid, openid);
+	 @RequestMapping("/push/share/qrcode/to/user")
+	  public Mono<Map<String, Object>> PushJoinQrCode(@RequestParam(value = "actid", required = true) String actid) throws Exception{
+		 return joinQrCodeService.createForeverTicket(actid);
 	    
 	 }
 }
