@@ -12,7 +12,7 @@ import org.xarch.reliable.utils.QRCodeUtil;
 public class CheckQrCodeServiceImpl implements CheckQrCodeService {
 	
 	private static final String qrUrlBase = "https://www.xarchgroup.net/test/dist/index.html#qrcode";
-	private static final String imagePathBase = "/root/images/";
+	private static final String imagePathBase = "/root/images/check/";
 	private static final String logoPath = "/root/images/logo.jpg";
 	
 	/*

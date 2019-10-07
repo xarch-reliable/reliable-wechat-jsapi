@@ -85,7 +85,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 	public String getQrcode(String ticket, String actid) {
 		String filepath = null;
 		String requestUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+ticket;
-		String savepath = "/root/images/";
+		String savepath = "/root/images/share/";
 		try
 		{
 			URL url = new URL(requestUrl);
