@@ -53,6 +53,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
         sendJsonObj.put("action_info", actionInfoJsonObj);
         return webHttpUtil.CreateWechatQrCodeWebPost(sendJsonObj).flatMap(r -> {
         	String ticket = r.getTicket();
+        	logger.info("[ticket]"+ticket);
         	if(ticket != null) {
 	        	String imagePath = getQrcode(ticket, actid);
 	        	logger.info("图片地址"+imagePath);
