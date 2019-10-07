@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xarch.reliable.service.JoinQrCodeService;
@@ -18,6 +21,8 @@ import reactor.core.publisher.Mono;
 @Service
 public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 
+	private static final Logger logger = LoggerFactory.getLogger(JoinQrCodeServiceImpl.class);
+	
 	@Autowired
 	private WebHttpUtil webHttpUtil;
 	
@@ -50,6 +55,7 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
         	String ticket = r.getTicket();
         	if(ticket != null) {
 	        	String imagePath = getQrcode(ticket, actid);
+	        	logger.info("图片地址"+imagePath);
 	        	resmap.put("success_msg", imagePath);
 	        	/*
 	        	String media_id = null;
