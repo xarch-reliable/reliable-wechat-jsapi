@@ -39,6 +39,7 @@ public class JsapiController {
 	 
 	 @RequestMapping("/push/share/qrcode/to/user")
 	  public Mono<Map<String, Object>> PushJoinQrCode(@RequestParam(value = "actid", required = true) String actid) throws Exception{
+		 checkQrCodeService.CreateQRCodeAPush(actid, "true", 250);
 		 return joinQrCodeService.createForeverTicket(actid);
 	    
 	 }

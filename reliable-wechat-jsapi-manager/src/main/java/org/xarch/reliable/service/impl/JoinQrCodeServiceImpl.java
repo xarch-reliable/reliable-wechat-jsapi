@@ -115,13 +115,12 @@ public class JoinQrCodeServiceImpl implements JoinQrCodeService{
 			fos.close();
 			bis.close();
  
-			System.out.println(conn);
 			conn.disconnect();
-			System.out.println("根据ticket换取二维码成功");
+			logger.info("根据ticket换取二维码成功");
 		} catch (Exception e)
 		{
 			filepath = null;
-			System.out.println("根据ticket换取二维码失败" + e);
+			logger.info("根据ticket换取二维码失败");
 		}
 		
 		return filepath;
